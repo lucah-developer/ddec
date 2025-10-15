@@ -1,10 +1,88 @@
-@layer tailwind-base, primereact, tailwind-utilities;
+/* index.css - CORREGIDO */
 
-@layer tailwind-base {
-  @tailwind base;
+/* 1) Fuentes (opcional) */
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700;800&display=swap");
+:root {
+  --bg: #0f1724;
+  --surface: #0b1220;
+  --nav-bg-dark: rgba(12, 14, 16, 0.92);
+  --nav-bg-light: rgba(245, 247, 249, 0.96);
+  --text: #e6eef6;
+  --accent: #9ca3af;
+  --accent-strong: #d6d9dc;
+  --muted: #6b7280;
 }
 
-@layer tailwind-utilities {
-  @tailwind components;
-  @tailwind utilities;
+[data-theme="light"] {
+  --bg: #f8fafb;
+  --surface: #f3f4f6;
+  --text: #0b1220;
+  --nav-bg-light: rgba(255, 255, 255, 0.96);
+}
+
+/* Utility classes that use variables */
+.bg-app {
+  background-color: var(--bg);
+  color: var(--text);
+}
+.surface {
+  background-color: var(--surface);
+}
+.text-accent {
+  color: var(--accent) !important;
+}
+.bg-accent {
+  background-color: var(--accent) !important;
+}
+.btn-metal {
+  background: linear-gradient(145deg, var(--accent-strong), var(--accent));
+  color: var(--text);
+  box-shadow: 0 8px 20px rgba(10, 12, 16, 0.12);
+}
+
+/* Transiciones suaves de tema */
+html,
+body {
+  transition: background-color 260ms ease, color 260ms ease;
+}
+
+/* Small helper to ensure hero buttons readable on light/dark */
+.btn-contrast {
+  color: var(--text);
+}
+
+/* 2) Tailwind core layers */
+@tailwind base;
+@tailwind components;
+
+/* 3) CSS de librerías externas (AOS, PrimeReact, Flowbite, etc.) */
+@import "aos/dist/aos.css";
+@import "primereact/resources/primereact.min.css";
+@import "primereact/resources/themes/saga-blue/theme.css";
+@import "flowbite/dist/flowbite.css";
+
+/* 4) Utilidades (Tailwind) */
+@tailwind utilities;
+
+/* 5) Estilos globales / variables */
+/* index.css (parte superior) */
+
+/* Transiciones suaves al cambiar tema */
+html {
+  transition: background-color 280ms ease, color 280ms ease;
+}
+
+/* ejemplo rápido: utilidades CSS para usar variables */
+.bg-app {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 280ms ease, color 280ms ease;
+}
+
+/* color acento utilitario */
+.text-accent {
+  color: var(--accent) !important;
+}
+.bg-accent {
+  background-color: var(--accent) !important;
 }

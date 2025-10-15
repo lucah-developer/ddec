@@ -1,155 +1,138 @@
+// HeroSection.jsx
 import parque from "../Empresas/Muni/ParqueNiños/7.jpeg";
 import edificio from "../Empresas/Afip/AFIP_SAN_LUIS/esquina.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 
-export default function Hero() {
+export default function HeroSection() {
   useEffect(() => {
     AOS.init({
-      duration: 3000,
-      delay: 200,
+      duration: 1200,
+      delay: 100,
       once: true,
     });
-  });
+  }, []);
+
+  const sections = [
+    {
+      title: "Parque De Los Niños",
+      subtitle: "San Rafael",
+      description:
+        "Realizamos la remodelación y mantenimiento del Parque de Los Niños en San Rafael, Mendoza, un espacio recreativo dedicado a los más pequeños, situado junto a la Plaza Francia, promoviendo juego, diversión y encuentro familiar.",
+      image: parque,
+      linkProyecto: "/muni/#parque",
+    },
+    {
+      title: "Edificio AFIP",
+      subtitle: "San Luis",
+      description:
+        "Remodelamos y mantenemos el edificio principal de AFIP en San Luis, incluyendo baños y comedor, reafirmando nuestro compromiso con la excelencia en infraestructura.",
+      image: edificio,
+      linkProyecto: "/afip/#afip",
+    },
+    {
+      title: "Paseo Pellegrini",
+      subtitle: "San Rafael",
+      description:
+        "Construcción del Paseo Pellegrini, un punto neurálgico del centro de San Rafael, hogar de tiendas, negocios y heladerías, revitalizando un espacio clave para la comunidad.",
+      image:
+        "https://www.sanrafael.gov.ar/wp-content/uploads/2019/06/led-paseo-pellegrini.jpg",
+      linkProyecto: "/muni#pellegrini",
+    },
+  ];
+
+  // Reutilizamos exactamente el estilo de botones del HeroInicio:
+  const primaryBtnStyle = {
+    background: "linear-gradient(145deg, #E5E7EB, #9CA3AF)", // metálico claro
+    color: "#111827",
+    boxShadow: "0 8px 20px rgba(10,12,16,0.14)",
+  };
+
+  const secondaryBtnClass =
+    "bg-white text-neutral-900 px-6 py-3 rounded-lg font-semibold hover:bg-neutral-200 transition-colors duration-300";
 
   return (
-    <div class=" xs:pt-10 xs:pb-10 container mx-auto flex px-5  flex-col justify-center  gap-20 items-center">
-      <div className="flex flex-col  items-center justify-center h-screen md:flex-row lg:flex-row">
-        <div
-          data-aos="fade-up-right"
-          dat
-          a-aos-anchor-placement="center-bottom"
-          class=" shadow-lg shadow-gray-400 xs:w-full xl:max-w-3xl rounded-lg lg:max-w-lg lg:w-full md:w-1/2 xs:h-3/6 mb-10 md:mb-0 sm:h-3/6"
-        >
-          <img
-            class="object-cover object-center rounded w-full h-full "
-            alt="hero"
-            src={parque}
-          />
-        </div>
-        <div
-          data-aos="flip-right"
-          data-aos-anchor-placement="center-bottom"
-          class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
-        >
-          <h1 class="title-font gap-2 sm:text-4xl text-3xl mb-4 font-medium text-white">
-            Parque De Los Niños
-            <br class="hidden lg:inline-block" />
-            <p>San Rafael</p>
-          </h1>
-          <p class="mb-8 leading-relaxed text-justify text-white">
-            Realizamos la remodelación y mantenimiento, de el Parque de Los
-            Niños en San Rafael, Mendoza, un espacio recreativo dedicado
-            especialmente a los más pequeños, situado junto a la Plaza Francia,
-            para promover el juego, la diversión y el encuentro familiar.
-          </p>
-          <div class="flex justify-center gap-2">
-            <a
-              href="/muni/#parque"
-              class="inline-flex text-white bg-gray-500 border-0 xs:py-4 xsm:py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
-            >
-              Proyecto
-            </a>
-            <a
-              href="/#contacto"
-              class=" inline-flex  items-center justify-center xs:text-lg xs:px-4  text-gray-700 bg-gray-100 border-0 xs:py-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
-            >
-              Conctáctanos
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="flex h-screen  items-center justify-center flex-col-reverse md:flex-row lg:flex-row">
-        <div
-          data-aos="flip-right"
-          data-aos-anchor-placement="center-bottom"
-          class=" lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 lg:pl-0 flex flex-col md:items-start md:text-left items-center text-center"
-        >
-          <h1 class="title-font  sm:text-4xl text-3xl mb-4 font-medium text-white">
-            Edificio Afip
-            <br class="hidden lg:inline-block" />
-            <p>San Luis</p>
-          </h1>
-          <p class="mb-8 leading-relaxed text-white text-justify">
-            Realizamos la remodelación y mantenimiento de el edificio principal
-            de AFIP en la ciudad de San Luis, incluyendo los baños y comedor
-            principales, reafirmando nuestro compromiso con la excelencia en
-            proyectos de infraestructura.
-          </p>
-          <div class="flex justify-center gap-2">
-            <a
-              href="/afip/#afip"
-              class="inline-flex text-white bg-gray-500 border-0 xs:py-4 xsm:py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
-            >
-              Proyecto
-            </a>
-            <a
-              href="/#contacto"
-              class=" inline-flex  items-center justify-center xs:text-lg xs:px-4  text-gray-700 bg-gray-100 border-0 xs:py-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
-            >
-              Conctáctanos
-            </a>
-          </div>
-        </div>
-        <div
-          data-aos="fade-up-right"
-          data-aos-anchor-placement="center-bottom"
-          class=" shadow-lg shadow-gray-400 rounded-lg lg:max-w-lg xl:max-w-3xl lg:w-full md:w-1/2 xs:w-full xs:h-3/6 mb-10 md:mb-0 sm:h-3/6"
-        >
-          <img
-            class="object-cover object-center rounded w-full h-full "
-            alt="hero"
-            src={edificio}
-          />
-        </div>
-      </div>
+    <section className="relative bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 text-white overflow-hidden">
+      {/* patrón sutil metálico */}
+      <div
+        className="absolute inset-0 opacity-8 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+        aria-hidden
+      />
 
-      <div className=" flex flex-col  items-center  justify-center h-screen md:flex-row lg:flex-row">
-        <div
-          data-aos="fade-up-right"
-          data-aos-anchor-placement="center-bottom"
-          class="shadow-lg shadow-gray-400 rounded-lg xl:max-w-3xl lg:max-w-lg lg:w-full md:w-1/2  xs:w-full xs:h-3/6 mb-10 md:mb-0 sm:h-3/6"
-        >
-          <img
-            class="object-cover object-center rounded w-full h-full "
-            alt="hero"
-            src="https://www.sanrafael.gov.ar/wp-content/uploads/2019/06/led-paseo-pellegrini.jpg"
-          />
-        </div>
-        <div
-          data-aos="flip-right"
-          data-aos-anchor-placement="center-bottom"
-          class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
-        >
-          <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">
-            Paseo Pellegrini
-            <br class="hidden lg:inline-block" />
-            <p>San Rafael</p>
-          </h1>
-          <p class="mb-8 leading-relaxed text-white text-justify">
-            Se realizó la construcción del Paseo Pelegrini, en uno de los
-            lugares mas concurridos ubicado en el centro de San Rafael en dónde
-            se encuentran gran parte de las tiendas, negocios y heladerías que
-            habitan la ciudad.
+      <div className="relative container mx-auto px-6 py-20 space-y-28 z-10">
+        {/* Opcional: encabezado general */}
+        <div className="text-center mb-6">
+          <p className="text-sm uppercase tracking-wider text-neutral-400">
+            Proyectos destacados
           </p>
-          <div class="flex justify-center gap-2">
-            <a
-              href="/muni#pellegrini"
-              class="inline-flex text-white bg-gray-500 border-0 xs:py-4 xsm:py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
-            >
-              Proyecto
-            </a>
-            <a
-              href="/#contacto"
-              class=" inline-flex  items-center justify-center xs:text-lg xs:px-4  text-gray-700 bg-gray-100 border-0 xs:py-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
-            >
-              Conctáctanos
-            </a>
-          </div>
         </div>
+
+        {sections.map((sec, i) => (
+          <div
+            key={i}
+            className={`flex flex-col md:flex-row ${
+              i % 2 === 0 ? "" : "md:flex-row-reverse"
+            } items-center gap-12`}
+          >
+            {/* Imagen */}
+            <div
+              data-aos="fade-up"
+              className="relative w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl border border-neutral-700 transition hover:scale-[1.01] duration-500"
+              style={{
+                // ligero "metallic frame"
+                boxShadow:
+                  "0 12px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02)",
+              }}
+            >
+              <img
+                src={sec.image}
+                alt={sec.title}
+                className="w-full h-[420px] object-cover transition-transform duration-700"
+              />
+              {/* overlay oscuro como en HeroInicio */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            </div>
+
+            {/* Texto */}
+            <div
+              data-aos="fade-left"
+              className="md:w-1/2 space-y-6 text-center md:text-left"
+            >
+              <h2 className="text-4xl md:text-5xl font-extrabold text-neutral-100 leading-tight">
+                {sec.title}
+              </h2>
+
+              <h3 className="text-lg md:text-xl text-neutral-400 font-medium tracking-wide">
+                {sec.subtitle}
+              </h3>
+
+              <p className="leading-relaxed text-justify text-neutral-300">
+                {sec.description}
+              </p>
+
+              <div className="flex justify-center md:justify-start gap-4 pt-3">
+                <a
+                  href={sec.linkProyecto}
+                  className="px-7 py-3 rounded-lg font-semibold transition transform hover:-translate-y-0.5"
+                  style={primaryBtnStyle}
+                >
+                  Ver Proyecto
+                </a>
+
+                <a href="/#contacto" className={secondaryBtnClass}>
+                  Contáctanos
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }
