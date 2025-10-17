@@ -5,7 +5,7 @@ import trafo from "../Empresas/Pampa/Base_Transformador_PAMPA/1.jpeg";
 import aguatoro from "../Empresas/Pampa/PampaAguaDelToro/2.jpeg";
 import park from "../Empresas/Muni/ParqueNiños/9.jpeg";
 
-export default function HeroInicio() {
+export default function HeroInicio({ useTypewriter = true }) {
   const backgrounds = [trafo, aguatoro, park];
   const [current, setCurrent] = useState(0);
 
@@ -16,6 +16,11 @@ export default function HeroInicio() {
     );
     return () => clearInterval(id);
   }, [backgrounds.length]);
+
+  const words = [
+    "Empresa Constructora DDEC S.R.L",
+    "Calidad y seguridad en obras civiles",
+  ];
 
   return (
     <header
@@ -35,44 +40,46 @@ export default function HeroInicio() {
         />
       ))}
 
-      {/* overlay oscuro con degradado para matizar imágenes claras */}
+      {/* overlay más ligero, sin tintes fuertes */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(2,6,23,0.45), rgba(2,6,23,0.65))",
+            "linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.5))",
         }}
       />
 
       <div className="relative z-20 flex h-full w-full items-center justify-center px-6">
-        <div className="max-w-6xl text-center">
-          <h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            <Typewriter words={["Empresa Constructora DDEC S.R.L"]} />
-          </h1>
+        <div className="text-center">
+          <div className="flex flex-wrap items-baseline justify-center gap-4">
+            <span
+              className="text-base sm:text-lg md:text-4xl text-gray-200 font-bold"
+              style={{ fontFamily: "var(--body-font)" }}
+            >
+              Empresa Constructora
+            </span>
 
-          <p className="text-lg md:text-xl text-gray-300 mb-10 font-light tracking-wide">
+            <h1
+              className="m-0 p-0 text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-white hero-heading"
+              style={{ fontFamily: "var(--heading-font)" }}
+              aria-label="Nombre de la empresa"
+            >
+              <Typewriter
+                text="D.D.E.C S.R.L"
+                typingSpeed={110}
+                startDelay={180}
+                className="text-inherit"
+              />
+            </h1>
+          </div>
+
+          {/* si querés subtítulo debajo: */}
+          <p
+            className="text-base md:text-xl text-gray-300 mb-6 font-light tracking-wide mt-3"
+            style={{ fontFamily: "var(--body-font)" }}
+          >
             Desarrollo de Estructuras Cíviles de San Rafael, Mendoza
           </p>
-
-          <div className="flex items-center justify-center gap-5 flex-wrap">
-            <a
-              href="#empresasyproyectos"
-              className="inline-block px-8 py-3 rounded-lg text-lg font-semibold shadow-md transform hover:-translate-y-0.5 transition btn-metal btn-contrast"
-            >
-              Ver proyectos
-            </a>
-
-            <a
-              href="#contacto"
-              className="inline-block px-8 py-3 rounded-lg border border-gray-300 text-white font-semibold text-lg hover:bg-white hover:text-gray-900 transition"
-              aria-label="Contactar"
-            >
-              Contáctanos
-            </a>
-          </div>
         </div>
       </div>
 
@@ -82,7 +89,8 @@ export default function HeroInicio() {
             key={i}
             onClick={() => setCurrent(i)}
             aria-label={`Ir a slide ${i + 1}`}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            aria-pressed={current === i}
+            className={`w-3 h-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               current === i ? "scale-125 bg-gray-100" : "bg-gray-400/50"
             }`}
           />

@@ -1,82 +1,75 @@
 // Typewriter.jsx
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const Typewriter = ({
-  words = ["Empresa Constructora DDEC S.R.L"],
-  typingSpeed = 70,
-  startDelay = 200,
-}) => {
-  const text = Array.isArray(words) && words.length ? words[0] : String(words);
+/**
+ * Typewriter simple (single pass). Acepta className para tamaño/responsive.
+ */
+export default function Typewriter({
+  text = "D.D.E.C S.R.L",
+  typingSpeed = 110,
+  startDelay = 180,
+  className = "",
+}) {
+  const mountedRef = useRef(false);
+  const charRef = useRef(0);
+  const timeoutRef = useRef(null);
+
   const [display, setDisplay] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-  const mounted = useRef(true);
+  const [cursorVisible, setCursorVisible] = useState(true);
 
+  // cursor blink
   useEffect(() => {
-    mounted.current = true;
-    const blink = setInterval(() => setShowCursor((v) => !v), 500);
-    return () => {
-      mounted.current = false;
-      clearInterval(blink);
-    };
+    const id = setInterval(() => setCursorVisible((v) => !v), 520);
+    return () => clearInterval(id);
   }, []);
 
+  // typing (single pass)
   useEffect(() => {
-    if (!mounted.current) return;
-    let i = 0,
-      timer;
-    const start = () => {
-      const type = () => {
-        if (!mounted.current) return;
-        if (i <= text.length) {
-          setDisplay(text.slice(0, i));
-          i += 1;
-          timer = setTimeout(type, typingSpeed);
-        } else clearTimeout(timer);
-      };
-      type();
+    mountedRef.current = true;
+
+    const run = () => {
+      if (!mountedRef.current) return;
+      if (charRef.current < text.length) {
+        charRef.current += 1;
+        setDisplay(text.slice(0, charRef.current));
+        timeoutRef.current = setTimeout(run, typingSpeed);
+      } else {
+        // finished typing
+      }
     };
-    timer = setTimeout(start, startDelay);
-    return () => clearTimeout(timer);
+
+    timeoutRef.current = setTimeout(run, startDelay);
+
+    return () => {
+      mountedRef.current = false;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [text, typingSpeed, startDelay]);
 
-  const highlightWord = (val) => {
-    const keyword = "DDEC S.R.L";
-    if (!val.includes(keyword)) return val;
-    const parts = val.split(keyword);
-    return (
-      <>
-        {parts[0]}
-        <span style={{ color: "var(--accent)", fontWeight: 800 }}>
-          {keyword}
-        </span>
-        {parts[1]}
-      </>
-    );
-  };
-
   return (
-    <span className="inline-flex items-center justify-center">
+    <span
+      aria-live="polite"
+      aria-atomic="true"
+      className={`inline-flex items-baseline gap-2 ${className}`}
+    >
+      {/* Texto tipeado: usando metal-gradient */}
       <span
-        style={{ textShadow: "0 6px 18px rgba(0,0,0,0.6)" }}
-        className="text-white font-extrabold"
+        className="metal-gradient font-extrabold"
+        style={{ fontFamily: "var(--heading-font)", whiteSpace: "pre" }}
       >
-        {highlightWord(display)}
+        {display}
       </span>
 
+      {/* Cursor underscore ligeramente alineado con baseline */}
       <span
-        aria-hidden
+        aria-hidden="true"
+        className="typewriter-underscore"
         style={{
-          opacity: showCursor ? 1 : 0,
-          width: 22,
-          height: 2,
-          display: "inline-block",
-          marginLeft: 10,
-          marginBottom: 4,
-          background: "var(--accent)",
+          opacity: cursorVisible ? 1 : 0,
         }}
-      />
+      >
+        _
+      </span>
     </span>
   );
-};
-
-export default Typewriter;
+}
