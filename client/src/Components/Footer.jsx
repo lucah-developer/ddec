@@ -1,32 +1,35 @@
-import { Footer } from "flowbite-react";
-import {
-  BsDribbble,
-  BsFacebook,
-  BsGithub,
-  BsInstagram,
-  BsTwitter,
-} from "react-icons/bs";
-import logo from "../Logos&Imágenes/logo3.png";
+import React from "react";
 
-export default function Foot() {
+const Footer = () => {
   return (
-    <Footer container>
-      <div className="w-full text-center">
-        <div className="w-full justify-between sm:flex sm:items-center  sm:justify-between">
-          <img className="w-auto h-20 pb-0" src={logo} />
-
-          <Footer.LinkGroup className="xs:gap-5">
-            <Footer.Link href="#about">Sobre Nosotros</Footer.Link>
-            <Footer.Link href="https://www.facebook.com/DDEC.Constructora/?locale=es_LA">
-              Página Facebook
-            </Footer.Link>
-            <Footer.Link href="#empresasyproyectos">Proyectos</Footer.Link>
-            <Footer.Link href="#contacto">Contacto</Footer.Link>
-          </Footer.LinkGroup>
+    <footer className="bg-slate-950 dark:bg-black border-t border-white/5">
+      <div className="flex flex-col md:flex-row justify-between items-center w-full px-12 py-16 gap-8 max-w-7xl mx-auto font-body">
+        <div className="flex flex-col gap-4 items-center md:items-start text-center md:text-left">
+          <span className="text-xl font-bold text-slate-200 font-headline">D.D.E.C S.R.L.</span>
+          <p className="text-[10px] text-slate-500 uppercase tracking-[0.3em] font-medium">Firma Certificada ISO 9001 • Ingeniería Civil</p>
         </div>
-        <Footer.Divider />
-        <Footer.Copyright by="D.D.E.C Empresa Constructora™" year={2024} />
+        
+        <div className="flex flex-wrap justify-center gap-12 text-xs uppercase tracking-widest font-semibold">
+          <a className="text-slate-500 hover:text-slate-200 transition-colors" href="#">Legales</a>
+          <a className="text-slate-500 hover:text-slate-200 transition-colors" href="#">Privacidad</a>
+          <a className="text-primary hover:brightness-110 underline decoration-2 underline-offset-4 transition-all" href="#">Dashboard de Ingeniería</a>
+        </div>
+        
+        <div className="flex gap-6">
+          <a className="text-slate-500 hover:text-primary transition-all transform hover:scale-110" href="#">
+            <span className="material-symbols-outlined">share</span>
+          </a>
+          <a className="text-slate-500 hover:text-primary transition-all transform hover:scale-110" href="#">
+            <span className="material-symbols-outlined">link</span>
+          </a>
+        </div>
       </div>
-    </Footer>
+      
+      <div className="w-full px-12 py-8 border-t border-white/5 text-center">
+        <p className="text-[10px] text-slate-600 uppercase tracking-widest font-medium">© 2024 D.D.E.C S.R.L. Civil Engineering. Todos los derechos reservados.</p>
+      </div>
+    </footer>
   );
-}
+};
+
+export default Footer;

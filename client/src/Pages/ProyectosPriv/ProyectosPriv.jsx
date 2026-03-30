@@ -1,85 +1,116 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-import Content from "./Content";
+import React, { useEffect } from "react";
+import ProjectDetail from "../../Components/ProjectDetail";
+import ImagesConsultorio from "../../Empresas/Privados/Casadoro/CONSULTORIO";
+import ImagesBarrio from "../../Empresas/Privados/Casas/CasasDeBarrio";
+import ImagesCasasV from "../../Empresas/Privados/Casas/CasasVarias";
+import ImagesCDPaleta from "../../Empresas/Privados/CLUB DE PALETA";
+import ImagesDpdB from "../../Empresas/Privados/Deptos/Deptos Baloffet";
+import ImagesDpdR from "../../Empresas/Privados/Deptos/Deptos Roca";
+import ImagesLocalB from "../../Empresas/Privados/Local_Ballofet";
+import ImagesFedeC from "../../OBRAS/Federico_Cinta";
+import ImagesRodo from "../../OBRAS/ObraPrivAmiga_Rodolfo";
 
 export default function ProyectosPriv() {
   useEffect(() => {
-    AOS.init({
-      duration: 3000,
-      delay: 200,
-      once: true,
-    });
-    // Scroll al principio del componente después de que se haya renderizado completamente
     window.scrollTo(0, 0);
   }, []);
 
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const yOffset = -80; // Ajusta el desplazamiento adicional aquí
-      const y =
-        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-  return (
-    <div>
-      <section className="h-screen " id="1">
-        <div className="relative p-10 bg-sky-500">
-          <div className="absolute inset-x-0 bottom-0">
-            <svg
-              viewBox="0 0 224 12"
-              fill="currentColor"
-              className="w-full -mb-1 text-white"
-              preserveAspectRatio="none"
-            >
-              <path d="M0,0 C48.8902582,6.27314026 86.2235915,9.40971039 112,9.40971039 C137.776408,9.40971039 175.109742,6.27314026 224,0 L224,12.0441132 L0,12.0441132 L0,0 Z" />
-            </svg>
-          </div>
-          <div className="px-4 py-16 xs:py-28 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-            <div className="relative max-w-2xl xs:mx-auto  xs:max-w-xl md:max-w-2xl xs:text-center">
-              <h2 className="mb-3 xs:text-4xl  font-sans lg:text-4xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-                PROYECTOS PRIVADOS
-                <br className="hidden md:block" />
-                <p>REALIZADOS</p>
-              </h2>
-              <p className="mb-4 lg:text-xl text-justify sm:text-center font-semibold text-indigo-100 md:text-lg">
-                En el transcurso de la sección, encontrarás diversos proyectos
-                privados realizados por DDEC, junto con su descripción y tareas
-                realizadas.
-              </p>
+  const getImages = (obj) => obj ? Object.values(obj) : [];
 
-              <p className=" text-justify max-w-md mb-10 lg:text-xl sm:text-center tracking-wide text-indigo-100 sm:text-sm sm:mx-auto md:mb-16">
-                Te invito a que las leas y si tienes ganas de realizar algún
-                proyecto parecido no dudes en contactárnos!
-              </p>
-              <a
-                href="/#contacto"
-                className="bg-indigo-500 text-white text-xl font-bold py-3 px-10 rounded-xl hover:bg-indigo-600"
-              >
-                Contáctanos
-              </a>
-              <button
-                onClick={() => scrollToSection("casaspriv")}
-                aria-label="Scroll down"
-                className="flex mt-10 items-center justify-center w-10 h-10 mx-auto text-white duration-300 transform border border-white rounded-full hover:text-teal-accent-400 hover:border-teal-accent-400 hover:shadow hover:scale-110"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="currentColor"
-                >
-                  <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+  const projects = [
+    {
+      id: "casaspriv",
+      title: "Residenciales de Autor",
+      subtitle: "Arquitectura habitacional personalizada que fusiona el estilo de vida con la solidez de ingeniería civil.",
+      heroImage: getImages(ImagesBarrio)[0],
+      images: [getImages(ImagesBarrio)[1], getImages(ImagesCasasV)[0], getImages(ImagesFedeC)[0], getImages(ImagesRodo)[0]],
+      projectId: "DD-PR-RE-VAR",
+      area: "Varios m²",
+      year: "2018-2024",
+      seismicZone: "Zona 4",
+      materiality: "Hormigón, Metal y Terminaciones de Alta Gama",
+      description: "Construcción de viviendas unifamiliares en barrios exclusivos de San Rafael como El Nihuil y Cuadro Benegas. Proyectos llave en mano con altísimos estándares de calidad técnica.",
+      tags: ["Residencial", "Diseño", "San Rafael", "Mendoza"]
+    },
+    {
+      id: "consultorio",
+      title: "Consultorio Casadoro",
+      subtitle: "Espacios profesionales de vanguardia diseñados para la excelencia médica.",
+      heroImage: getImages(ImagesConsultorio)[8] || getImages(ImagesConsultorio)[0],
+      images: getImages(ImagesConsultorio),
+      projectId: "DD-PR-CO-23",
+      area: "350 m²",
+      year: "2023",
+      seismicZone: "Zona 4",
+      materiality: "Hormigón Visto y Pisos Técnicos",
+      description: "Construcción de consultorios privados premium. Una obra de terminación fina donde el diseño aséptico se combina con la robustez estructural de DDEC.",
+      tags: ["Salud", "Profesional", "San Rafael"]
+    },
+    {
+      id: "cdp",
+      title: "Club De Paleta",
+      subtitle: "Infraestructura deportiva de gran escala preparada para el desempeño de alto nivel.",
+      heroImage: getImages(ImagesCDPaleta)[4] || getImages(ImagesCDPaleta)[0],
+      images: getImages(ImagesCDPaleta),
+      projectId: "DD-PR-CP-22",
+      area: "1,800 m²",
+      year: "2022",
+      seismicZone: "Zona 4",
+      materiality: "Estructura Metálica de Gran Luces y Hormigón Polimerizado",
+      description: "Desarrollo integral del Club de Paleta en San Rafael. Una obra donde la ingeniería de grandes luces y pavimentos deportivos técnicos fueron la clave del éxito.",
+      tags: ["Deporte", "Estructura Pesada", "Mendoza"]
+    },
+    {
+      id: "depas",
+      title: "Edificios de Altura",
+      subtitle: "Desarrollos multifamiliares de renta y vivienda en ubicaciones estratégicas.",
+      heroImage: getImages(ImagesDpdR)[0],
+      images: [getImages(ImagesDpdR)[1], getImages(ImagesDpdB)[0], getImages(ImagesDpdB)[1]],
+      projectId: "DD-PR-ED-VAR",
+      area: "Varios m²",
+      year: "2020-2023",
+      seismicZone: "Zona 4",
+      materiality: "Estructura de Hormigón Independiente",
+      description: "Construcción de complejos de departamentos. Proyectos en Av. J. Roca y Av. Ballofet. Soluciones habitacionales integrales con foco en la durabilidad del activo inmobiliario.",
+      tags: ["Inmobiliario", "Altura", "San Rafael Center"]
+    },
+    {
+      id: "local",
+      title: "Locales Comerciales",
+      subtitle: "Fachadas de alto impacto y espacios interiores flexibles para el éxito mercantil.",
+      heroImage: getImages(ImagesLocalB)[4] || getImages(ImagesLocalB)[0],
+      images: getImages(ImagesLocalB),
+      projectId: "DD-PR-LC-21",
+      area: "450 m²",
+      year: "2021",
+      seismicZone: "Zona 4",
+      materiality: "Vidrio Templado y Pórticos de Hormigón",
+      description: "Construcción de local comercial en Av. Ballofet. Diseño moderno que maximiza la exposición de marca y la durabilidad estructural en zonas de alta sismicidad.",
+      tags: ["Comercial", "Marcas", "Diseño Moderno"]
+    }
+  ];
+
+  return (
+    <div className="bg-surface">
+      <section className="pt-32 pb-12 px-8 text-center bg-surface-container-low border-b border-outline-variant/10">
+        <h1 className="text-4xl md:text-6xl font-black font-headline tracking-tighter text-white uppercase mb-4">
+          Inversiones Privadas
+        </h1>
+        <p className="text-on-surface-variant max-w-3xl mx-auto text-lg lowercase first-letter:uppercase">
+          Proyectos desarrollados para el sector privado con un compromiso total hacia la rentabilidad y el prestigio arquitectónico.
+        </p>
       </section>
-      <Content />
+
+      {projects.map((proj, idx) => (
+        <ProjectDetail key={idx} {...proj} />
+      ))}
+
+      <section className="py-24 px-8 md:px-16 bg-surface-container-low border-t border-outline-variant/10 text-center">
+        <h2 className="text-3xl font-bold font-headline text-white mb-8">INICIE SU PROYECTO PRIVADO</h2>
+        <a href="mailto:constructoraddecsrl@gmail.com" className="px-16 py-6 bg-primary text-on-primary font-black uppercase tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all inline-block">
+          Contactar Oficina Técnica
+        </a>
+      </section>
     </div>
   );
 }

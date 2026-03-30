@@ -1,101 +1,56 @@
-// HeroInicio.jsx
-import React, { useEffect, useState } from "react";
-import Typewriter from "./Typewriter";
-import trafo from "../Empresas/Pampa/Base_Transformador_PAMPA/1.jpeg";
-import aguatoro from "../Empresas/Pampa/PampaAguaDelToro/2.jpeg";
-import park from "../Empresas/Muni/ParqueNiños/9.jpeg";
+import React from "react";
 
-export default function HeroInicio({ useTypewriter = true }) {
-  const backgrounds = [trafo, aguatoro, park];
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(
-      () => setCurrent((c) => (c + 1) % backgrounds.length),
-      5000
-    );
-    return () => clearInterval(id);
-  }, [backgrounds.length]);
-
-  const words = [
-    "Empresa Constructora DDEC S.R.L",
-    "Calidad y seguridad en obras civiles",
-  ];
-
+const HeroInicio = () => {
   return (
-    <header
-      id="inicio"
-      className="relative h-screen w-full overflow-hidden"
-      aria-label="Sección principal"
-    >
-      {backgrounds.map((src, i) => (
-        <img
-          key={i}
-          src={src}
-          alt={`Fondo ${i + 1}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-            current === i ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-          loading="lazy"
+    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img 
+          className="w-full h-full object-cover opacity-40 grayscale" 
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmhyynAxTKJmqcRF5yVE-5NiKqrBz1YywiwRFw9jcXsN-SUODhNjJsodLExEc3Jf327-dkhQdkOQ-Uo3J50G2f5LhPqcvUKmhdvG4UOj-KTY-zxCBnXROIDiQwDUWY0SLpMFRKrgyPeeYoWvLeYNVzz0v1z2rJKQlV2FStTkIxA46mBsH98zdlB0BUsKaAMCOx9SN9Anm5q6Ja3L9ZgqIyJPk5dNuKn0GZ150p4iE9NPY6_FWtqVtzc5P0g3q8EjCVHDKXa3dD2w" 
+          alt="Ingeniería Civil D.D.E.C"
         />
-      ))}
-
-      {/* overlay más ligero, sin tintes fuertes */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.5))",
-        }}
-      />
-
-      <div className="relative z-20 flex h-full w-full items-center justify-center px-6">
-        <div className="text-center">
-          <div className="flex flex-wrap items-baseline justify-center gap-4">
-            <span
-              className="text-base sm:text-lg md:text-4xl text-gray-200 font-bold"
-              style={{ fontFamily: "var(--body-font)" }}
-            >
-              Empresa Constructora
-            </span>
-
-            <h1
-              className="m-0 p-0 text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-white hero-heading"
-              style={{ fontFamily: "var(--heading-font)" }}
-              aria-label="Nombre de la empresa"
-            >
-              <Typewriter
-                text="D.D.E.C S.R.L"
-                typingSpeed={110}
-                startDelay={180}
-                className="text-inherit"
-              />
-            </h1>
-          </div>
-
-          {/* si querés subtítulo debajo: */}
-          <p
-            className="text-base md:text-xl text-gray-300 mb-6 font-light tracking-wide mt-3"
-            style={{ fontFamily: "var(--body-font)" }}
-          >
-            Desarrollo de Estructuras Cíviles de San Rafael, Mendoza
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background"></div>
+      </div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-8 w-full">
+        <div className="max-w-3xl">
+          <h4 className="text-primary font-bold tracking-[0.3em] uppercase mb-4 text-sm">
+            Empresa de Ingeniería Civil
+          </h4>
+          <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter mb-6 leading-none text-blue-glow">
+            Excelencia Estructural,<br/>
+            <span className="text-primary-dim">Orgullo Regional.</span>
+          </h1>
+          <p className="text-xl text-secondary max-w-xl mb-10 leading-relaxed font-body">
+            Definiendo el panorama arquitectónico de San Rafael, Mendoza a través de rigurosos estándares de ingeniería e innovación industrial.
           </p>
+          <div className="flex flex-wrap gap-4">
+            <a 
+              className="bg-primary text-on-primary px-8 py-4 font-bold rounded-sm hover:brightness-110 transition-all active:scale-95" 
+              href="#projects"
+            >
+              Ver Portfolio
+            </a>
+            <a 
+              className="bg-surface-container-highest text-on-surface px-8 py-4 font-bold rounded-sm hover:bg-surface-variant transition-all active:scale-95" 
+              href="#contact"
+            >
+              Contactar Expertos
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="absolute left-6 bottom-8 z-30 flex gap-2">
-        {backgrounds.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            aria-label={`Ir a slide ${i + 1}`}
-            aria-pressed={current === i}
-            className={`w-3 h-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              current === i ? "scale-125 bg-gray-100" : "bg-gray-400/50"
-            }`}
-          />
-        ))}
+      {/* Asymmetric Detail */}
+      <div className="absolute bottom-12 right-12 hidden lg:block">
+        <div className="bg-surface-container-low p-8 border-l-4 border-primary shadow-2xl">
+          <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">Identidad Local</p>
+          <p className="font-headline font-bold text-xl text-on-surface">San Rafael, Mendoza</p>
+          <p className="text-secondary text-sm">34.6177° S, 68.3301° W</p>
+        </div>
       </div>
-    </header>
+    </section>
   );
-}
+};
+
+export default HeroInicio;

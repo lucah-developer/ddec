@@ -1,86 +1,67 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-import Content from "./Content";
+import React, { useEffect } from "react";
+import ProjectDetail from "../../Components/ProjectDetail";
+import ImagesCanal from "../../Empresas/Irrigación/Canal";
+import ImagesCompuertas from "../../Empresas/Irrigación/Compuertas";
 
 export default function Irrigación() {
-  window.reload;
   useEffect(() => {
-    AOS.init({
-      duration: 3000,
-      delay: 200,
-      once: true,
-    });
-    // Scroll al principio del componente después de que se haya renderizado completamente
     window.scrollTo(0, 0);
   }, []);
 
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const yOffset = -80; // Ajusta el desplazamiento adicional aquí
-      const y =
-        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-  return (
-    <div>
-      <section className="h-screen" id="1">
-        <div className="relative p-10 bg-teal-700">
-          <div className="absolute inset-x-0 bottom-0">
-            <svg
-              viewBox="0 0 224 12"
-              fill="currentColor"
-              className="w-full -mb-1 text-white"
-              preserveAspectRatio="none"
-            >
-              <path d="M0,0 C48.8902582,6.27314026 86.2235915,9.40971039 112,9.40971039 C137.776408,9.40971039 175.109742,6.27314026 224,0 L224,12.0441132 L0,12.0441132 L0,0 Z" />
-            </svg>
-          </div>
-          <div className="px-4 py-16 xs:py-28 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-            <div className="relative max-w-2xl xs:mx-auto  xs:max-w-xl md:max-w-2xl xs:text-center">
-              <h2 className="mb-3 xs:text-3xl font-sans lg:text-4xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-                IRRIGACIÓN
-                <br className="hidden md:block" />
-                <p>PROYECTOS REALIZADOS</p>
-              </h2>
-              <p className="mb-6 lg:text-xl font-semibold text-indigo-100 md:text-lg">
-                En el transcurso de la sección, encontrarás diversos proyectos
-                realizados por DDEC, junto con su descripción y tareas
-                realizadas.
-              </p>
+  const getImages = (obj) => obj ? Object.values(obj) : [];
 
-              <p className="max-w-md mb-10 lg:text-xl tracking-wide text-indigo-100 sm:text-sm sm:mx-auto md:mb-16">
-                Te invito a que las leas y si tienes ganas de realizar algún
-                proyecto parecido no dudes en contactárnos!
-              </p>
-              <a
-                href="#"
-                className="bg-indigo-500 text-white text-xl font-bold py-3 px-10 rounded-xl hover:bg-indigo-600"
-              >
-                Contáctanos
-              </a>
-              <button
-                onClick={() => scrollToSection("proyecto1")}
-                aria-label="Scroll down"
-                className="flex mt-10 items-center justify-center w-10 h-10 mx-auto text-white duration-300 transform border border-gray-400 rounded-full hover:text-teal-accent-400 hover:border-teal-accent-400 hover:shadow hover:scale-110"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="currentColor"
-                >
-                  <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+  const projects = [
+    {
+      id: "canal",
+      title: "Canal Sauce La Leona",
+      subtitle: "Ingeniería hidráulica para la gestión y distribución de recursos hídricos en zonas agrícolas.",
+      heroImage: getImages(ImagesCanal)[24] || getImages(ImagesCanal)[0],
+      images: getImages(ImagesCanal),
+      projectId: "DD-IR-CL-19",
+      area: "Cuadro Benegas",
+      year: "2019",
+      seismicZone: "Zona 4",
+      materiality: "Hormigón de Alta Resistencia",
+      description: "Construcción del Canal Sauce La Leona. Un proyecto crítico para el Departamento General de Irrigación, asegurando la eficiencia en el transporte de agua hacia las zonas productoras del sur mendocino.",
+      tags: ["Hidráulica", "Agricultura", "Cuadro Benegas"]
+    },
+    {
+      id: "compuertas",
+      title: "Compuertas Derivador Matriz",
+      subtitle: "Tecnología de control y derivación de caudales hídricos de alta precisión.",
+      heroImage: getImages(ImagesCompuertas)[0],
+      images: getImages(ImagesCompuertas),
+      projectId: "DD-IR-DM-20",
+      area: "Goudge",
+      year: "2020",
+      seismicZone: "Zona 4",
+      materiality: "Acero Galvanizado y Hormigón Armado",
+      description: "Reparación y construcción del sistema de compuertas en el derivador Matriz. Obras esenciales para el control de caudales y el mantenimiento de la red de irrigación provincial.",
+      tags: ["Mantenimiento Hídrico", "Goudge", "Infraestructura"]
+    }
+  ];
+
+  return (
+    <div className="bg-surface">
+      <section className="pt-32 pb-12 px-8 text-center bg-surface-container-low border-b border-outline-variant/10">
+        <h1 className="text-4xl md:text-6xl font-black font-headline tracking-tighter text-white uppercase mb-4">
+          Irrigación
+        </h1>
+        <p className="text-on-surface-variant max-w-3xl mx-auto text-lg lowercase first-letter:uppercase">
+          Proyectos hídricos e infraestructura de riego. Gestión eficiente del recurso vital para el desarrollo provincial.
+        </p>
       </section>
-      <Content />
+
+      {projects.map((proj, idx) => (
+        <ProjectDetail key={idx} {...proj} />
+      ))}
+
+      <section className="py-24 px-8 md:px-16 bg-surface-container-low border-t border-outline-variant/10 text-center">
+        <h2 className="text-3xl font-bold font-headline text-white mb-8">CONTACTO PRODUCTIVO</h2>
+        <a href="mailto:constructoraddecsrl@gmail.com" className="px-12 py-5 bg-primary text-on-primary font-black uppercase tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all inline-block">
+          Contactar Oficina Técnica
+        </a>
+      </section>
     </div>
   );
 }

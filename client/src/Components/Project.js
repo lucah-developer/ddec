@@ -1,37 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Navbar } from "flowbite-react";
-
+import React from "react";
 import Obras from "./Obras";
 import Hero from "./Hero";
 import HeroInicio from "./HeroInicio";
-import Nav from "./Nav";
 import About from "./About";
 import Contact from "./Contact";
 
 const Project = () => {
   return (
-    <div class=" overflow-x-hidden ">
-      <div className="h-screen">
-        <HeroInicio />
-      </div>
-      <section id="about" className="">
-        <About />
+    <div className="bg-background selection:bg-primary-container selection:text-on-primary-container">
+      {/* Hero Principal */}
+      <HeroInicio />
+
+      {/* Sección Sobre Nosotros */}
+      <About />
+
+      {/* Proyectos Destacados (Hero) */}
+      <Hero />
+
+      {/* Expertise / Proyectos Grid */}
+      <section id="expertise" className="py-24 bg-surface-container-low">
+        <div className="max-w-7xl mx-auto px-8">
+          <Obras />
+        </div>
       </section>
-      <section class="text-gray-600    bg-gray-800  bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]body-font ">
-        <Hero />
-      </section>
-      <section
-        id="empresasyproyectos"
-        className="flex flex-col items-center justify-center h-screen "
-      >
-        <h1 className="mt-20 flex text-center items-center font-Kanit justify-center text-bold text-5xl">
-          Empresas & Proyectos
-        </h1>
-        <Obras />
-      </section>
-      <section id="contacto" class="text-gray-600 body-font relative">
-        <Contact />
-      </section>
+
+      {/* Contacto */}
+      <Contact />
     </div>
   );
 };

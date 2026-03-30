@@ -1,147 +1,48 @@
-// About.jsx
-import React, { useEffect } from "react";
-import paruqe from "../Empresas/Muni/ParqueNiños/7.jpeg";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { FaFlag } from "react-icons/fa";
-import { FcAbout } from "react-icons/fc";
-import { BsFillRocketTakeoffFill } from "react-icons/bs";
+import React from "react";
 
-export default function About() {
-  useEffect(() => {
-    AOS.init({ duration: 900, delay: 80, once: true });
-  }, []);
-
-  // Pattern para modo claro
-  const lightPattern = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><circle cx='6' cy='6' r='2' fill='%239CA3AF' fill-opacity='0.15'/><circle cx='24' cy='24' r='1.6' fill='%239CA3AF' fill-opacity='0.08'/><circle cx='42' cy='42' r='2' fill='%23D1D5DB' fill-opacity='0.12'/></svg>")`;
-
-  // Pattern para modo oscuro
-  const darkPattern = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><circle cx='6' cy='6' r='2' fill='%23ffffff' fill-opacity='0.07'/><circle cx='24' cy='24' r='1.6' fill='%23ffffff' fill-opacity='0.05'/><circle cx='42' cy='42' r='2' fill='%239CA3AF' fill-opacity='0.08'/></svg>")`;
-
+const About = () => {
   return (
-    <section
-      id="about"
-      aria-labelledby="about-title"
-      className="relative py-24 px-6 overflow-hidden transition-colors duration-500 bg-white dark:bg-black text-gray-800 dark:text-white"
-    >
-      {/* Fondo degradado + pattern */}
-      <div className="absolute inset-0" aria-hidden>
-        {/* Degradado claro */}
-        <div
-          className="absolute inset-0 dark:hidden"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(243,244,246,0.95) 100%)",
-          }}
-        />
-        {/* Degradado oscuro */}
-        <div
-          className="absolute inset-0 hidden dark:block"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(5,5,5,1) 0%, rgba(15,15,15,0.95) 100%)",
-          }}
-        />
-
-        {/* Pattern claro */}
-        <div
-          className="absolute inset-0 dark:hidden"
-          style={{
-            backgroundImage: lightPattern,
-            backgroundRepeat: "repeat",
-            backgroundSize: "40px 40px",
-            opacity: 0.18,
-          }}
-        />
-
-        {/* Pattern oscuro */}
-        <div
-          className="absolute inset-0 hidden dark:block"
-          style={{
-            backgroundImage: darkPattern,
-            backgroundRepeat: "repeat",
-            backgroundSize: "40px 40px",
-            opacity: 0.15,
-          }}
-        />
-      </div>
-
-      {/* Contenido */}
-      <div className="relative max-w-7xl mx-auto z-10">
-        {/* Título */}
-        <div className="text-center mb-16">
-          <h2
-            id="about-title"
-            className="text-4xl md:text-5xl font-extrabold tracking-tight flex items-center justify-center gap-3"
-          >
-            Sobre la Empresa
-            <span className="inline-flex items-center justify-center rounded-full bg-gray-200/40 dark:bg-white/10 p-2">
-              <FcAbout className="text-2xl" />
-            </span>
-          </h2>
-          <p className="mt-6 max-w-3xl mx-auto text-lg text-gray-600 dark:text-slate-300 leading-relaxed">
-            Somos una empresa constructora de San Rafael, Mendoza, especializada
-            en obras públicas y privadas. Compromiso, calidad e innovación.
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Columna izquierda */}
-          <div className="space-y-10">
-            <div data-aos="fade-right">
-              <h3 className="text-3xl font-bold flex items-center gap-3">
-                Nuestra Misión
-                <span className="inline-flex items-center justify-center rounded-md bg-sky-800/10 dark:bg-sky-800/20 p-2 text-sky-500">
-                  <BsFillRocketTakeoffFill className="text-lg" />
-                </span>
-              </h3>
-              <p className="mt-4 text-gray-600 dark:text-slate-300 leading-relaxed text-justify">
-                Impulsar el desarrollo sostenible mediante la construcción de
-                obras públicas y privadas de alta calidad. Eficiencia,
-                innovación y responsabilidad social.
-              </p>
-            </div>
-
-            {/* Datos en cards */}
-            <div className="grid sm:grid-cols-2 gap-8">
-              <div
-                data-aos="fade-up"
-                className="p-5 bg-gray-100/70 dark:bg-white/5 rounded-xl shadow-md border border-gray-200 dark:border-white/10 hover:border-sky-400/40 transition"
-              >
-                <FaFlag className="text-3xl text-sky-500 mb-3" />
-                <h4 className="font-semibold text-xl">Fundada</h4>
-                <p className="mt-2 text-gray-700 dark:text-slate-400 text-sm leading-relaxed">
-                  Establecida en 2010 en San Rafael. Más de una década aportando
-                  experiencia.
-                </p>
-              </div>
-
-              <div
-                data-aos="fade-up"
-                className="p-5 bg-gray-100/70 dark:bg-white/5 rounded-xl shadow-md border border-gray-200 dark:border-white/10 hover:border-sky-400/40 transition"
-              >
-                <h4 className="font-semibold text-xl">+100 Proyectos</h4>
-                <p className="mt-2 text-gray-700 dark:text-slate-400 text-sm leading-relaxed">
-                  Proyectos que reflejan nuestra calidad y compromiso con la
-                  seguridad.
-                </p>
-              </div>
-            </div>
+    <section className="py-32 bg-surface" id="about">
+      <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+        <div className="relative">
+          <div className="aspect-[4/5] bg-surface-container-low overflow-hidden shadow-2xl">
+            <img 
+              className="w-full h-full object-cover grayscale opacity-80 hover:scale-105 transition-transform duration-700" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHIJDwWav5EbMr4aND9ODPqOec9uiiZdv8tBtKleG4sNPfZJD5pJafeTKslgpJLneiY2_3BXoNc5CcTGbXBk5bKQtzkPutFCbTnZr3A8Q4uKDJHtWVa5y_iggqKjZG5klcyC7nRFnfSnEogx_sm6C-7YEI0Bwjs34c6x-q2BpRAFxgSvHmQacy9cRapxsusjjgozfsGAu5vLhD69a6PFkRWi0JDg0Xa0BiswLcRS5syTHz4Bj7xhXzTDV7L3J5QOALqX_DtkMxqg" 
+              alt="Ingeniería D.D.E.C"
+            />
           </div>
-
-          {/* Columna derecha */}
-          <div data-aos="flip-left" className="flex justify-center">
-            <div className="relative rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-white/10 hover:border-sky-400/40 transition">
-              <img
-                src={paruqe}
-                alt="Proyecto destacado - Parque"
-                className="object-cover w-full h-[420px] rounded-xl"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="absolute -bottom-8 -right-8 bg-primary-container p-8 max-w-xs hidden sm:block shadow-2xl border border-outline-variant/20">
+            <p className="text-4xl font-extrabold text-on-primary-container mb-2">25+</p>
+            <p className="text-sm font-bold uppercase tracking-widest text-on-primary-container/80">Años de Rigor en Ingeniería</p>
+          </div>
+        </div>
+        
+        <div>
+          <h2 className="text-4xl font-bold mb-8 tracking-tight text-on-surface">La Base de la Confiabilidad</h2>
+          <div className="space-y-6 text-lg text-on-surface-variant leading-relaxed font-body">
+            <p>
+              Desde nuestra fundación, D.D.E.C S.R.L. se ha mantenido como un monolito de precisión técnica en la región de Mendoza. Nuestro compromiso con la ingeniería civil va más allá de la construcción; diseñamos infraestructuras que sostienen comunidades e impulsan el progreso industrial.
+            </p>
+            <p>
+              Con un profundo conocimiento de los requisitos sísmicos y la geología regional, nuestro equipo de ingenieros expertos garantiza que cada proyecto, desde edificios gubernamentales hasta complejos industriales, cumpla con los más altos estándares globales de seguridad y durabilidad.
+            </p>
+          </div>
+          
+          <div className="mt-12 grid grid-cols-2 gap-8">
+            <div>
+              <p className="text-primary font-bold text-lg mb-1">Integridad</p>
+              <p className="text-sm text-secondary">Honestidad en cada cálculo y contrato.</p>
+            </div>
+            <div>
+              <p className="text-primary font-bold text-lg mb-1">Precisión</p>
+              <p className="text-sm text-secondary">Exactitud matemática en todos los diseños estructurales.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default About;

@@ -1,227 +1,127 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Timeline } from "primereact/timeline";
-import uno from "../OBRAS/CasaMujer/Etapa_1/1.jpeg";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { Link } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-export default function Obras() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+import React, { useCallback } from "react";
+import useEmblaCarousel from 'embla-carousel-react';
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
-  const sliderRef = useRef(null);
-  const empresas = [
+const Obras = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    align: 'start',
+    slidesToScroll: 1,
+    containScroll: 'trimSnaps'
+  });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const companies = [
     {
-      img: "https://cpcejujuy.org.ar/wp-content/uploads/2018/05/afip-logo-720x398.jpg",
-      name: "AFIP",
-      direc: "/afip",
-      bg: "before:bg-afip",
+      title: "Administración AFIP",
+      category: "Público / Institucional",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuASjhfj0jQQr1yiuhfY8dQg_qRnph_PS4zp6Y8wAXvE67s0VQbXUuHc0qva08q_r5ah1lm_V1Wm1-02PJQ6aPC0U-0tubBTbO155_TXac0C7OsEwP3MnJuLJ-ttyAHqJDKp-ZpJfDnkLLZzv8aAGGCuZP1H7hUV4eOq_1jmKp6W1lFxy9kp8xNezkYTBUYlolijfsgX1qkld8ZhzVrxk2Poe8UGZq5dcKn5fc98a-jGif8m8_x_-gmcDf7Rl7_AuwRcBjJ1gRquHw",
+      link: "/afip",
     },
     {
-      img: "https://pbs.twimg.com/profile_images/1536318543549145090/ClS-5GuQ_400x400.jpg",
-      name: "IPV",
-      direc: "/ipv",
-      bg: "before:bg-ipv",
+      title: "Municipalidad SRL",
+      category: "Desarrollo Urbano",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEPzgfLwF8C3Zsahla60Rmv0XK8vciys1aMVdS1K1v0iCU9qV05H13lvSAVG0PmjQ8CZP2lwNDA6xPe7SMy9qr0XQYRHwOwANW2DzekIBUriUDUqHeCOKSuVd_8bwGSIsG-znfkXA-cnt3Rq4DbU7Qe5zs8nu6ukRU-L3LqpZLNG8JFcmRphzMjzSL9NVK71K2vxSf5YvIn71gQulscVkF4BTujA2O944rb2j4bitjTVqs4yBr433fK_MqBsBMzdlX4pDYO9PNvg",
+      link: "/muni",
     },
     {
-      img: "https://pbs.twimg.com/profile_images/1721909416436633600/6_fahV1p_400x400.jpg",
-      name: "Irrigación",
-      direc: "/irrigación",
-      bg: "before:bg-irrig",
+      title: "IPV Mendoza",
+      category: "Vivienda Social",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCwWTgNOhg26IhITMLQCq4voq3rnch05bUtfehb0DGjzZnMmibqi4rLpK7o2Kbnra1cbGzDTbsUY2PPta_i7c0fXNVehK_-YPI4qUZlYe7yQx75-LByNNrOcgXCOpbbJ_1UIoIsIyOE_wrFw4Fp34jYeZZPmbDD1GH1wlFtV5CVUMybFz-ZnQS86cJpeJLjukI59Hs5AEVIc-pTmOWAff4OxwlPB5NtShCgkHVJo9Tfi3shNiHQ4zCNcDzEM86o8IU2AGOPA-VJEg",
+      link: "/ipv",
     },
     {
-      img: "https://yt3.googleusercontent.com/ytc/AIf8zZT6aLQXpX8jlB8rhgeSXZLRNzR5h_dAsAM8BkTU_Q=s900-c-k-c0x00ffffff-no-rj",
-      name: "Municipalidad de San Rafael",
-      direc: "/muni",
-      bg: "before:bg-muni",
+      title: "Pampa Energía",
+      category: "Sector Energético",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBRbKT-aiX6JLqLOENSZxcRyJwodgnU0_X77r7HaGMHgbeFI6str7k_U56F1ObieafUsgQLHBsfucYv5wmkUvxsrAT43CZirnNJUKM1Qhj0QekvWqmqCiYagpXYqjsbn0b3DEML6GZhpLfwL4v0GNH75oyJv2C-sEY19rRjwaAW6vFgI6WGIhC2c2ffZqPpog9YY4huHYTOgeyoB_wYXZ30fbqqw6ymyws2kqP7DrOX9bu1rY6hegDh07DX7ZvXP0_c15SirAIBGw",
+      link: "/pampaenergía",
     },
     {
-      img: "https://pbs.twimg.com/profile_images/1042102997466206209/z4V-64Hk_400x400.jpg",
-      name: "Pampa Energía",
-      direc: "/pampaenergía",
-      bg: "before:bg-pampa",
+      title: "Irrigación Prov.",
+      category: "Infraestructura Hídrica",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDVXlV_GbT0TbF9flhqPlsnDV_ycFP6w5966BlzL3ZG2qulkaeOj4a4oMyYkw2Ky2vDeCorqPf4JFVGGrYfRGFmkgBhuInMiPWzGaLDWEuVKcHDPYchgbcT8jfAzv97yP7qO0Rph3h6mNP0YHBY5tbcgPSp5MtK6jrzDT99y5RZW5Z5SO9WTBhYwZGtjl9O4CVv9hEoD4kiURL46vWnx3v8f4C2vICCwJaYVzxbRqfX9KCLCwBAHLbA8ZC4yBhmSEm-s6niEcjnHg",
+      link: "/irrigación",
     },
     {
-      img: "https://static.vecteezy.com/system/resources/previews/010/553/523/non_2x/collaboration-agreement-logo-design-contract-deal-logo-vector.jpg",
-      name: "Proyectos Privados",
-      direc: "/proyectospriv",
-      bg: "before:bg-priv",
+      title: "Inversión Privada",
+      category: "Desarrollos de Autor",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDZuWzNBSZ1IrIGhZiNE3XW6NFYBn08lhHHKO_mg4A5tzHbctI4zkhqU-uRB15_QK9a3IBnFw9EQaSFBcMmk7_cje-V3qC1AewaIybIbYpdXDatPE5ml3KscPHmsNSJ5zpEWzQ_GObd_Umy1BkeGhEw-lzUbRzzLackG-jfTwGOQW1JUxWJqeqPpZnptcCkvYRfCs0e57jvjNRzX6hNMXkkR3COAKq06tvMvQB1moupLb605MuqQQmFlVVVQQhKfQ8nECksBYRD9Q",
+      link: "/proyectospriv",
     },
   ];
-  const [slidesToShow, setSlidesToShow] = useState(4);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: slidesToShow,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    speed: 2000,
-  };
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Adjust slidesToShow based on window width
-    if (windowWidth < 640) {
-      setSlidesToShow(1);
-    } else if (windowWidth < 940) {
-      setSlidesToShow(2);
-    } else if (windowWidth < 1324) {
-      setSlidesToShow(3);
-    } else {
-      setSlidesToShow(4);
-    }
-  }, [windowWidth]);
 
   return (
-    <div className="  w-full   bg-white ">
-      <Slider {...settings}>
-        {empresas?.map((e) => (
-          <div key={e.name}>
-            <div className="flex   items-center justify-center w-full h-full p-10">
-              <div
-                className={`group  shadow-lg shadow-gray-300 before:hover:backdrop-blur-10 before:hover:scale-95 before:hover:h-96 before:bg-cover  before:hover:w-80 ${e.bg} before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-80 before:h-32 before:rounded-t-2xl r before:absolute before:hover:bg-opacity-25 before:backdrop-blur-lg before:top-0  before:bg-no-repeat  w-72 h-96 relative flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden`}
+    <div className="relative group/carousel">
+      {/* Navigation Buttons */}
+      <div className="hidden md:flex absolute -left-6 -right-6 top-1/2 -translate-y-1/2 justify-between z-10 pointer-events-none">
+        <button 
+          onClick={scrollPrev}
+          className="w-12 h-12 bg-surface-container-high/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary border border-outline-variant/20 shadow-2xl hover:bg-primary hover:text-on-primary transition-all pointer-events-auto active:scale-90"
+        >
+          <MdChevronLeft size={32} />
+        </button>
+        <button 
+          onClick={scrollNext}
+          className="w-12 h-12 bg-surface-container-high/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary border border-outline-variant/20 shadow-2xl hover:bg-primary hover:text-on-primary transition-all pointer-events-auto active:scale-90"
+        >
+          <MdChevronRight size={32} />
+        </button>
+      </div>
+
+      {/* Viewport */}
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex gap-4 px-1">
+          {companies.map((project, index) => (
+            <div 
+              key={index} 
+              className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.33%] lg:flex-[0_0_25%] min-w-0"
+            >
+              <a 
+                href={project.link}
+                className="group block bg-surface-container-highest overflow-hidden relative aspect-[4/5] shadow-xl border border-outline-variant/10 rounded-sm transition-all duration-300 hover:shadow-primary/10"
               >
-                <img
-                  src={e?.img}
-                  className="w-28 h-28  bg-blue-700 mt-8 rounded-full border-4 border-slate-50 z-10 group-hover:scale-150 group-hover:-translate-x-24  group-hover:-translate-y-20 transition-all duration-500"
+                <img 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
+                  src={project.image} 
+                  alt={project.title}
                 />
-                <div className="z-10  group-hover:-translate-y-10 transition-all duration-500 group-hover:text-white">
-                  <span className="text-2xl  font-semibold">{e?.name}</span>
-                </div>
-                <div className="w-full mt-5 flex items-center justify-center cursor-pointer">
-                  <div className="relative inline-flex items-center justify-start pt-3 pl-4 pr-12 overflow-hidden font-semibold  text-black-600 transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6   dark:text-white dark:hover:text-gray-200 dark:shadow-none group">
-                    <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 group-hover:ease-in-out  group-hover:h-full"></span>
-                    <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        fill="none"
-                        className="w-5 h-5 text-gray-400"
-                      >
-                        <path
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          stroke-width="2"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                    </span>
-                    <span className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        fill="none"
-                        className="w-5 h-5 text-green-400"
-                      >
-                        <path
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          stroke-width="2"
-                          stroke-linejoin="round"
-                          stroke-linecap="round"
-                        ></path>
-                      </svg>
-                    </span>
-                    <a
-                      href={e.direc}
-                      className="relative w-full text-left text-lg group-hover:transition-colors duration-200 group-hover:ease-in-out group-hover:text-white dark:group-hover:text-gray-200"
-                    >
-                      Ver Proyectos
-                    </a>
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                
+                {/* Technical Label */}
+                <div className="absolute top-4 left-4">
+                  <div className="bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 text-[8px] font-black uppercase tracking-[0.2em] text-primary border border-primary/20">
+                    PARTNER_SEC_0{index + 1}
                   </div>
                 </div>
-              </div>
+
+                <div className="absolute inset-0 flex flex-col justify-end p-8">
+                  <p className="text-[10px] font-black text-primary mb-2 uppercase tracking-[0.3em] font-label">{project.category}</p>
+                  <h3 className="text-2xl font-black text-white font-headline leading-tight tracking-tighter uppercase whitespace-pre-line truncate">{project.title}</h3>
+                  
+                  <div className="mt-4 h-[2px] w-0 bg-primary group-hover:w-full transition-all duration-700"></div>
+                </div>
+              </a>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </div>
+      </div>
+      
+      {/* Mobile Hint */}
+      <div className="mt-8 flex justify-center md:hidden">
+        <div className="px-4 py-2 bg-surface-container-high/50 rounded-full flex gap-2">
+           <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+           <span className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Deslice para explorar</span>
+        </div>
+      </div>
     </div>
   );
-}
-// function CustomNextArrow(props) {
-//   const { onClick } = props;
-//   return (
-//     <div
-//       className="slick-arrow"
-//       style={{ right: "10px", zIndex: "2" }}
-//       onClick={onClick}
-//     >
-//       <svg
-//         xmlns="http://www.w3.org/2000/svg"
-//         className="h-6 w-6"
-//         fill="none"
-//         viewBox="0 0 24 24"
-//         stroke="currentColor"
-//       >
-//         <path
-//           strokeLinecap="round"
-//           strokeLinejoin="round"
-//           strokeWidth={2}
-//           d="M9 5l7 7-7 7"
-//         />
-//       </svg>
-//     </div>
-//   );
-// }
+};
 
-function CustomPrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      className="slick-arrow  "
-      style={{ left: "10px", zIndex: "1" }}
-      onClick={onClick}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M15 19l-7-7 7-7"
-        />
-      </svg>
-    </div>
-  );
-}
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className="slick-arrow"
-      style={{ ...style, display: "block", background: "green" }}
-      onClick={onClick}
-    />
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className="slick-arrow"
-      style={{ ...style, display: "block", background: "green" }}
-      onClick={onClick}
-    />
-  );
-}
+export default Obras;

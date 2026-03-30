@@ -1,86 +1,97 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-import Content from "./Content";
+import React, { useEffect } from "react";
+import ProjectDetail from "../../Components/ProjectDetail";
+import ImagesTrafo from "../../Empresas/Pampa/Base_Transformador_PAMPA";
+import ImagesSacde from "../../Empresas/Pampa/Pampa Energía-Sacde-Melisan";
+import ImagesToro from "../../Empresas/Pampa/PampaAguaDelToro";
+import ImagesDique from "../../Empresas/Pampa/Reparación Dique Aisol";
 
 export default function Pampa() {
-  window.reload;
   useEffect(() => {
-    AOS.init({
-      duration: 3000,
-      delay: 200,
-      once: true,
-    });
-    // Scroll al principio del componente después de que se haya renderizado completamente
     window.scrollTo(0, 0);
   }, []);
 
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const yOffset = -80; // Ajusta el desplazamiento adicional aquí
-      const y =
-        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-  return (
-    <div>
-      <section className="h-screen" id="1">
-        <div className="relative p-10 bg-sky-500">
-          <div className="absolute inset-x-0 bottom-0">
-            <svg
-              viewBox="0 0 224 12"
-              fill="currentColor"
-              className="w-full -mb-1 text-white"
-              preserveAspectRatio="none"
-            >
-              <path d="M0,0 C48.8902582,6.27314026 86.2235915,9.40971039 112,9.40971039 C137.776408,9.40971039 175.109742,6.27314026 224,0 L224,12.0441132 L0,12.0441132 L0,0 Z" />
-            </svg>
-          </div>
-          <div className="px-4 py-16 xs:py-28 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-            <div className="relative max-w-2xl xs:mx-auto  xs:max-w-xl md:max-w-2xl xs:text-center">
-              <h2 className="mb-3 xs:text-3xl font-sans lg:text-4xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-                PAMPA ENERGÍA
-                <br className="hidden md:block" />
-                <p>PROYECTOS REALIZADOS</p>
-              </h2>
-              <p className="mb-6 lg:text-xl font-semibold text-indigo-100 md:text-lg">
-                En el transcurso de la sección, encontrarás diversos proyectos
-                realizados por DDEC, junto con su descripción y tareas
-                realizadas.
-              </p>
+  const getImages = (obj) => obj ? Object.values(obj) : [];
 
-              <p className="max-w-md mb-10 lg:text-xl tracking-wide text-indigo-100 sm:text-sm sm:mx-auto md:mb-16">
-                Te invito a que las leas y si tienes ganas de realizar algún
-                proyecto parecido no dudes en contactárnos!
-              </p>
-              <a
-                href="/#contacto"
-                className="bg-indigo-500 text-white text-xl font-bold py-3 px-10 rounded-xl hover:bg-indigo-600"
-              >
-                Contáctanos
-              </a>
-              <button
-                onClick={() => scrollToSection("basepampa")}
-                aria-label="Scroll down"
-                className="flex mt-10 items-center justify-center w-10 h-10 mx-auto text-white duration-300 transform border border-gray-400 rounded-full hover:text-teal-accent-400 hover:border-teal-accent-400 hover:shadow hover:scale-110"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="currentColor"
-                >
-                  <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+  const projects = [
+    {
+      id: "basepampa",
+      title: "Base Transformador Pampa",
+      subtitle: "Ingeniería de fundaciones pesadas para soporte de transformadores de alto voltaje.",
+      heroImage: getImages(ImagesTrafo)[9] || getImages(ImagesTrafo)[0],
+      images: getImages(ImagesTrafo),
+      projectId: "DD-PE-BT-20",
+      area: "120 m²",
+      year: "2020",
+      seismicZone: "Zona 4",
+      materiality: "Hormigón de Alta Resistencia H35",
+      description: "Construcción de la base del transformador para PAMPA ENERGÍA. Un proyecto de alta precisión donde la nivelación y la calidad del hormigón son críticas para la estabilidad del equipo electromecánico.",
+      tags: ["Energía", "Hormigón Especial", "Ingeniería Eléctrica"]
+    },
+    {
+      id: "sacde",
+      title: "Junta Elástica Nihuil 2",
+      subtitle: "Colaboración internacional en infraestructura hidroeléctrica de gran escala.",
+      heroImage: getImages(ImagesSacde)[9] || getImages(ImagesSacde)[0],
+      images: getImages(ImagesSacde),
+      projectId: "DD-PE-JE-21",
+      area: "Conexión Crítica",
+      year: "2021",
+      seismicZone: "Zona 4",
+      materiality: "Elastómeros Industriales y Acero H30",
+      description: "Construcción y colocación de la Junta Elástica para la Turbina del Nihuil 2. Proyecto realizado en colaboración con la empresa brasilera Sacde, enfocado en absorber vibraciones dinámicas de la turbina.",
+      tags: ["Hidroelectricidad", "Sacde", "Sacde-Melisan"]
+    },
+    {
+      id: "toro",
+      title: "Pampa Agua del Toro",
+      subtitle: "Soluciones de infraestructura en entornos geógraficos de alta complejidad.",
+      heroImage: getImages(ImagesToro)[1] || getImages(ImagesToro)[0],
+      images: getImages(ImagesToro),
+      projectId: "DD-PE-AT-19",
+      area: "Infraestructura de Campo",
+      year: "2019",
+      seismicZone: "Zona 4",
+      materiality: "Mampostería Reforzada y Metal Pesado",
+      description: "Construcción en Pampa Agua del Toro. Un proyecto que demuestra la capacidad de DDEC para operar en locaciones remotas, garantizando estándares de calidad industrial.",
+      tags: ["Obra de Campo", "Pampa Energía", "San Rafael"]
+    },
+    {
+      id: "dique",
+      title: "Reparación Dique Aisol",
+      subtitle: "Mantenimiento estructural preventivo y correctivo de presas reguladoras.",
+      heroImage: getImages(ImagesDique)[2] || getImages(ImagesDique)[0],
+      images: getImages(ImagesDique),
+      projectId: "DD-PE-DA-22",
+      area: "Presa Aisol",
+      year: "2022",
+      seismicZone: "Zona 4",
+      materiality: "Hormigón Proyectado y Sellados de Alta Presión",
+      description: "Se realizó la construcción y reparación del Dique Aisol. Intervenciones críticas para la seguridad estructural y la gestión hídrica eficiente del sistema Pampa Energía.",
+      tags: ["Hidráulica", "Reparación Estructural", "Mendoza"]
+    }
+  ];
+
+  return (
+    <div className="bg-surface">
+      <section className="pt-32 pb-12 px-8 text-center bg-surface-container-low border-b border-outline-variant/10">
+        <h1 className="text-4xl md:text-6xl font-black font-headline tracking-tighter text-white uppercase mb-4">
+          Pampa Energía
+        </h1>
+        <p className="text-on-surface-variant max-w-3xl mx-auto text-lg lowercase first-letter:uppercase">
+          Infraestructura de soporte energético y reparaciones críticas. Alianza estratégica para el desarrollo industrial argentino.
+        </p>
       </section>
-      <Content />
+
+      {projects.map((proj, idx) => (
+        <ProjectDetail key={idx} {...proj} />
+      ))}
+
+      <section className="py-24 px-8 md:px-16 bg-surface-container-low border-t border-outline-variant/10 text-center">
+        <h2 className="text-3xl font-bold font-headline text-white mb-8">¿Planea una intervención de alta ingeniería?</h2>
+        <a href="mailto:constructoraddecsrl@gmail.com" className="px-12 py-5 bg-primary text-on-primary font-black uppercase tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all inline-block">
+          Contactar Oficina Técnica
+        </a>
+      </section>
     </div>
   );
 }

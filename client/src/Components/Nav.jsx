@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Navbar } from "flowbite-react";
 import logo from "../Logos&Imágenes/logo.png";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-
   const [theme, setTheme] = useState(() => {
     try {
       const stored = localStorage.getItem("site-theme");
       if (stored) return stored;
-      return window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: light)").matches
-        ? "light"
-        : "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     } catch {
       return "dark";
     }
@@ -21,10 +16,10 @@ export default function Nav() {
 
   useEffect(() => {
     applyTheme(theme);
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 18);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -33,8 +28,10 @@ export default function Nav() {
   const applyTheme = (t) => {
     const html = document.documentElement;
     if (t === "light") {
+      html.classList.remove("dark");
       html.setAttribute("data-theme", "light");
     } else {
+      html.classList.add("dark");
       html.removeAttribute("data-theme");
     }
     try {
@@ -43,119 +40,58 @@ export default function Nav() {
   };
 
   const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    applyTheme(next);
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  const textColor = () => {
-    if (!scrolled) {
-      return "#ffffff"; // letras claras sobre imagen oscura
-    }
-    if (theme === "light") {
-      return "#1f2937"; // gris oscuro para light mode scrolleado
-    }
-    return "#f1f5f9"; // dark mode letras claras
-  };
-
-  const hoverColor = () => {
-    if (theme === "light") {
-      return "#2563eb"; // azul intenso en light mode
-    }
-    return "#facc15"; // amarillo en dark mode
-  };
-
-  const containerClass = scrolled
-    ? "fixed top-0 z-50 w-full shadow-md py-3 transition-all duration-300 border-b"
-    : "fixed top-0 z-50 w-full py-3 transition-all duration-300";
-
-  const containerStyle = scrolled
-    ? {
-        background: theme === "light" ? "#ffffff" : "var(--nav-bg-light)",
-        color: textColor(),
-        borderBottom: "1px solid rgba(0,0,0,0.1)",
-      }
-    : { background: "transparent", color: textColor(), borderBottom: "none" };
+  const navLinks = [
+    { href: "/#about", label: "Nosotros" },
+    { href: "/#expertise", label: "Especialidad" },
+    { href: "/#projects", label: "Proyectos" },
+    { href: "/#contact", label: "Contacto" },
+  ];
 
   return (
-    <Navbar fluid rounded className={containerClass} style={containerStyle}>
-      <div className="flex items-center ml-6">
-        <a href="/" className="flex items-center" aria-label="Inicio">
-          <img
-            src={logo}
-            alt="DDEC Logo"
-            className={`object-contain transition-all duration-300 ${
-              scrolled ? "h-14" : "h-12"
-            }`}
-            style={
-              scrolled
-                ? { filter: "none" }
-                : { filter: "brightness(0) invert(1) contrast(110%)" }
-            }
+    <nav className={`fixed top-0 w-full z-50 glass-nav transition-all duration-300 ${scrolled ? "py-2 shadow-lg" : "py-4"}`}>
+      <div className="flex justify-between items-center w-full px-8 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3">
+          <img 
+            className="h-10 w-10 object-contain" 
+            src={logo} 
+            alt="D.D.E.C Logo" 
+            style={{ filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none' }}
           />
-        </a>
+          <span className="text-2xl font-black tracking-tighter text-slate-100 dark:text-on-background">
+            D.D.E.C S.R.L.
+          </span>
+        </div>
+        
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a 
+              key={link.href}
+              className="text-slate-300 hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider" 
+              href={link.href}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={toggleTheme}
+            className="p-2 hover:bg-white/5 transition-all duration-300 rounded-full"
+            aria-label="Toggle theme"
+          >
+            <span className="material-symbols-outlined text-primary">
+              {theme === "dark" ? "light_mode" : "dark_mode"}
+            </span>
+          </button>
+          <button className="md:hidden p-2 text-on-background">
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+        </div>
       </div>
-
-      <div className="flex-1 flex justify-end md:justify-end mr-4 items-center gap-4">
-        {/* Links desktop */}
-        <nav className="hidden md:flex items-center gap-6 mr-4">
-          {["Inicio", "Obras", "Sobre Nosotros", "Contacto"].map(
-            (text, idx) => {
-              const hrefs = [
-                "/",
-                "/#empresasyproyectos",
-                "/#about",
-                "/#contacto",
-              ];
-              return (
-                <a
-                  key={idx}
-                  href={hrefs[idx]}
-                  className="text-base font-semibold transition-colors"
-                  style={{ color: textColor() }}
-                  onMouseEnter={(e) => (e.target.style.color = hoverColor())}
-                  onMouseLeave={(e) => (e.target.style.color = textColor())}
-                >
-                  {text}
-                </a>
-              );
-            }
-          )}
-        </nav>
-
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          aria-label="Cambiar tema"
-          className="p-2 rounded-md transition-colors"
-          style={{ background: "transparent", color: textColor() }}
-        >
-          {theme === "dark" ? (
-            <MdLightMode size={20} />
-          ) : (
-            <MdDarkMode size={20} />
-          )}
-        </button>
-
-        {/* Mobile menu toggle */}
-        <Navbar.Toggle className="md:hidden" />
-      </div>
-
-      {/* Mobile collapse */}
-      <Navbar.Collapse className="md:hidden mr-6">
-        <a href="/" style={{ color: textColor() }}>
-          Inicio
-        </a>
-        <a href="/#empresasyproyectos" style={{ color: textColor() }}>
-          Obras
-        </a>
-        <a href="/#about" style={{ color: textColor() }}>
-          Sobre Nosotros
-        </a>
-        <a href="/#contacto" style={{ color: textColor() }}>
-          Contacto
-        </a>
-      </Navbar.Collapse>
-    </Navbar>
+    </nav>
   );
 }
