@@ -1,32 +1,26 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import Project from "../Components/Project";
-import Afip from "../Pages/Afip/Afip";
-import Irrigación from "../Pages/Irrigación/Irrigación";
-import Ipv from "../Pages/IPV/Ipv";
-import Muni from "../Pages/MuniSRL/Muni";
-import Pampa from "../Pages/Pampa_Energía/Pampa";
-import ProyectosPriv from "../Pages/ProyectosPriv/ProyectosPriv";
-import { useEffect, useState } from "react";
-import Loader from "../Components/Loader";
+import { Navigate, Route, Routes } from "react-router-dom";
+import SiteFrame from "../components/SiteFrame";
+import Home from "../pages/Home";
+import Projects from "../pages/Projects";
+import ProjectDetail from "../pages/ProjectDetail";
 
-const Rutas = () => {
-  // Ejecutar solo una vez al montar el componente
+export default function Rutas() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route exact path={"/"} element={<Project />} />
-          <Route exact path={"/afip"} element={<Afip />} />
-          <Route exact path={"/irrigación"} element={<Irrigación />} />
-          <Route exact path={"/ipv"} element={<Ipv />} />
-          <Route exact path={"/muni"} element={<Muni />} />
-          <Route exact path={"/pampaenergía"} element={<Pampa />} />
-          <Route exact path={"/proyectospriv"} element={<ProyectosPriv />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route element={<SiteFrame />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/proyectos" element={<Projects />} />
+        <Route path="/proyectos/:id" element={<ProjectDetail />} />
+        <Route path="/afip" element={<Navigate to="/proyectos?c=afip" replace />} />
+        <Route path="/irrigación" element={<Navigate to="/proyectos?c=irri" replace />} />
+        <Route path="/irrigacion" element={<Navigate to="/proyectos?c=irri" replace />} />
+        <Route path="/ipv" element={<Navigate to="/proyectos?c=ipv" replace />} />
+        <Route path="/muni" element={<Navigate to="/proyectos?c=muni" replace />} />
+        <Route path="/pampaenergía" element={<Navigate to="/proyectos?c=pampa" replace />} />
+        <Route path="/pampaenergia" element={<Navigate to="/proyectos?c=pampa" replace />} />
+        <Route path="/proyectospriv" element={<Navigate to="/proyectos?c=priv" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+    </Routes>
   );
-};
-
-export default Rutas;
+}
