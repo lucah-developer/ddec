@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDiag, IconGrid, IconList } from "../components/Icons";
-import markLight from "../assets/logo/mark-light.png";
+import markLight from "../brand/logo/mark-light.png";
 import { CLIENTS, PROJECTS, clientByKey, counts, pad2 } from "../data/projects";
 import { copyReveal, goClick, navTheme, setNavLight, siteApi } from "../lib/motion";
 import { usePageLifecycle } from "../lib/usePageLifecycle";

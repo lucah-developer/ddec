@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import markLight from "../assets/logo/mark-light.png";
+import markLight from "../brand/logo/mark-light.png";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import { setNavLight, siteApi } from "../lib/motion";

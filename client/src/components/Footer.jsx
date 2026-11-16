@@ -1,4 +1,4 @@
-import markLight from "../assets/logo/mark-light.png";
+import markLight from "../brand/logo/mark-light.png";
 import { goClick } from "../lib/motion";
 
 const OBRA = [

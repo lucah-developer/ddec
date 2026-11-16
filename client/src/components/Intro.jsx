@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import markLight from "../assets/logo/mark-light.png";
+import markLight from "../brand/logo/mark-light.png";
 import { removeBoot, siteApi } from "../lib/motion";
 import { playHero } from "../lib/homeMotion";
 

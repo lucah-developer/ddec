@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import markLight from "../assets/logo/mark-light.png";
-import markDark from "../assets/logo/mark-dark.png";
+import markLight from "../brand/logo/mark-light.png";
+import markDark from "../brand/logo/mark-dark.png";
 import { goClick, siteApi } from "../lib/motion";
 
 const LINKS = [

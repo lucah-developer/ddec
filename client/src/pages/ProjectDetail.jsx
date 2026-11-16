@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import gsap from "gsap";
-import markLight from "../assets/logo/mark-light.png";
+import markLight from "../brand/logo/mark-light.png";
 import { ArrowDiag, ArrowRight } from "../components/Icons";
 import { PROJECTS, clientByKey, pad2, projectById } from "../data/projects";
 import { mountDetail, playDetail, prepareDetail } from "../lib/detailMotion";

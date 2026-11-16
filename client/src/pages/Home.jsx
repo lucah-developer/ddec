@@ -1,5 +1,5 @@
 import { memo, useLayoutEffect, useRef, useState } from "react";
-import markLight from "../assets/logo/mark-light.png";
+import markLight from "../brand/logo/mark-light.png";
 import Intro from "../components/Intro";
 import { ArrowRight } from "../components/Icons";
 import { projectById, shots } from "../data/projects";
