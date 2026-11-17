@@ -2,21 +2,22 @@ import { memo, useLayoutEffect, useRef, useState } from "react";
 import markLight from "../brand/logo/mark-light.png";
 import Intro from "../components/Intro";
 import { ArrowRight } from "../components/Icons";
-import { projectById, shots } from "../data/projects";
+import { mediaUrl, projectById, shots } from "../data/projects";
 import gsap from "gsap";
 import { mountHome, playHero } from "../lib/homeMotion";
 import { goClick, removeBoot, setNavLight, siteApi } from "../lib/motion";
+import { setSeo } from "../lib/seo";
 import { usePageLifecycle } from "../lib/usePageLifecycle";
 
 const cover = (id) => projectById(id)?.photos[0] || "";
 
 const SERVICES = [
-  ["01", "Obra pública e institucional", "Edificios administrativos, museos, bibliotecas y comedores: remodelaciones, ampliaciones y refuerzos para AFIP y la Municipalidad de San Rafael.", cover("museo-lagiglia")],
-  ["02", "Vivienda social y desarrollos privados", "Barrios IPV, casas de barrio, edificios de departamentos y residenciales de autor.", cover("edificios-de-altura")],
-  ["03", "Infraestructura hídrica", "Canal Sauce La Leona, compuertas del Derivador Matriz y redes cloacales que sostienen el sistema productivo de Mendoza.", cover("compuertas-derivador-matriz")],
-  ["04", "Energía e industria", "Fundaciones pesadas para transformadores de alto voltaje, junta elástica de la turbina del Nihuil 2 y reparación del Dique Aisol para Pampa Energía.", cover("junta-elastica-nihuil-2")],
-  ["05", "Espacios públicos y urbanismo", "Paseo Pellegrini, Parque de los Niños, plazas y ciclovía: renovación del espacio urbano de San Rafael.", cover("plaza-belgrano")],
-  ["06", "Mantenimiento, refuerzos y terminaciones", "Refuerzo estructural de cubiertas, cielorrasos técnicos, núcleos sanitarios y mantenimiento de edificios en uso.", cover("mantenimiento-km0")],
+  { n: "01", title: "Obra pública e institucional", desc: "Edificios administrativos, museos, bibliotecas y comedores: remodelaciones, ampliaciones y refuerzos para AFIP y la Municipalidad de San Rafael.", img: cover("museo-lagiglia"), to: "/proyectos?c=muni" },
+  { n: "02", title: "Vivienda social y desarrollos privados", desc: "Barrios IPV, casas de barrio, edificios de departamentos y residenciales de autor.", img: cover("edificios-de-altura"), to: "/proyectos?c=priv" },
+  { n: "03", title: "Infraestructura hídrica", desc: "Canal Sauce La Leona, compuertas del Derivador Matriz y redes cloacales que sostienen el sistema productivo de Mendoza.", img: cover("compuertas-derivador-matriz"), to: "/proyectos?c=irri" },
+  { n: "04", title: "Energía e industria", desc: "Fundaciones pesadas para transformadores de alto voltaje, junta elástica de la turbina del Nihuil 2 y reparación del Dique Aisol para Pampa Energía.", img: cover("junta-elastica-nihuil-2"), to: "/proyectos?c=pampa" },
+  { n: "05", title: "Espacios públicos y urbanismo", desc: "Paseo Pellegrini, Parque de los Niños, plazas y ciclovía: renovación del espacio urbano de San Rafael.", img: cover("plaza-belgrano"), to: "/proyectos?c=muni" },
+  { n: "06", title: "Mantenimiento, refuerzos y terminaciones", desc: "Refuerzo estructural de cubiertas, cielorrasos técnicos, núcleos sanitarios y mantenimiento de edificios en uso.", img: cover("mantenimiento-km0"), to: "/proyectos?c=muni" },
 ];
 
 const ARCH = [
@@ -131,18 +132,63 @@ function Arrow() {
   );
 }
 
+const CONTACT_TO = "info@ddec.com.ar";
+
 function ContactForm() {
   const [role, setRole] = useState(0);
-  const [ok, setOk] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [note, setNote] = useState("");
   const roles = ["Institución pública", "Desarrollador privado", "Industria / energía"];
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const nombre = String(data.get("nombre") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const msg = String(data.get("msg") || "").trim();
+    if (!nombre || !email || !msg) {
+      setStatus("error");
+      setNote("Completá nombre, correo y mensaje.");
+      return;
+    }
+    setStatus("sending");
+    setNote("");
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_TO}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          nombre,
+          apellido: String(data.get("apellido") || "").trim(),
+          email,
+          telefono: String(data.get("tel") || "").trim(),
+          empresa: String(data.get("empresa") || "").trim(),
+          sector: String(data.get("sector") || "").trim(),
+          perfil: roles[role],
+          mensaje: msg,
+          _subject: `Consulta web D.D.E.C. — ${nombre}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || body.success === "false" || body.success === false) {
+        const raw = String(body.message || "");
+        const message = /activation/i.test(raw)
+          ? `Te enviamos un correo a ${CONTACT_TO} para activar el formulario. Abrilo y confirmá el enlace; después los mensajes llegan directo.`
+          : raw || "No se pudo enviar.";
+        throw new Error(message);
+      }
+      setStatus("ok");
+      setNote("Gracias. El mensaje se envió.");
+      e.currentTarget.reset();
+      setRole(0);
+    } catch (err) {
+      setStatus("error");
+      setNote(err.message || "No se pudo enviar. Probá de nuevo.");
+    }
+  };
   return (
-    <form
-      data-r
-      onSubmit={(e) => {
-        e.preventDefault();
-        setOk(true);
-      }}
-    >
+    <form data-r onSubmit={onSubmit}>
       <fieldset className="grp" style={{ border: 0 }}>
         <legend className="mono">Sos:</legend>
         <div className="roles" id="roles">
@@ -172,12 +218,12 @@ function ContactForm() {
         </label>
       </div>
       <div className="submit">
-        <button className="btn btn-red" type="submit">
-          <span>Enviar el formulario</span>
+        <button className="btn btn-red" type="submit" disabled={status === "sending"}>
+          <span>{status === "sending" ? "Enviando…" : "Enviar el formulario"}</span>
           <Arrow />
         </button>
-        <small className="ok mono" hidden={!ok}>
-          Gracias — (demo) el formulario no envía datos.
+        <small className={status === "error" ? "ok mono is-err" : "ok mono"} hidden={status !== "ok" && status !== "error"}>
+          {note}
         </small>
       </div>
     </form>
@@ -191,7 +237,11 @@ function Home() {
   usePageLifecycle(
     "home",
     () => {
-      document.title = "D.D.E.C. S.R.L. — Excelencia estructural. Orgullo regional. · Propuesta de rediseño";
+      setSeo({
+        title: "D.D.E.C. S.R.L. — Obras civiles en San Rafael, Mendoza",
+        description: "D.D.E.C. S.R.L. diseña, calcula y construye obras civiles en San Rafael, Mendoza: obra pública, vivienda, energía e infraestructura hídrica.",
+        path: "/",
+      });
       siteApi.entrance = playHero;
       const root = document.getElementById("top") || document.body;
       return mountHome(root);
@@ -272,13 +322,13 @@ function HomeMain() {
           <div className="about-grid">
             <div className="about-media" data-r>
               <div className="about-frame">
-                <img id="aboutImg" src={shots.terminado} alt="Obra de infraestructura terminada" />
+                <img id="aboutImg" src={mediaUrl("empresas/Muni/PaseoPelegrini/3.jpg")} alt="Obra del Paseo Pellegrini, centro de San Rafael" />
               </div>
               <div className="about-badge">
                 <b data-count="25" data-suffix="+">25+</b>
                 <span>Años de rigor<br />en ingeniería</span>
               </div>
-              <div className="about-cap mono"><span>Infraestructura</span><span>Obra terminada</span></div>
+              <div className="about-cap mono"><span>Paseo Pellegrini</span><span>Centro de San Rafael</span></div>
             </div>
             <div className="about-copy">
               <p className="eyebrow">Lo que nos distingue</p>
@@ -308,14 +358,14 @@ function HomeMain() {
             <p data-r>Seis frentes de trabajo, una misma exigencia técnica. Todo lo que mostramos está construido por D.D.E.C.</p>
           </div>
           <div className="sv-list">
-            {SERVICES.map(([n, t, d, img]) => (
-              <div className="sv-row" data-r key={n}>
-                <span className="sv-n">{n}</span>
-                <h3 className="sv-t">{t}</h3>
-                <p className="sv-d">{d}</p>
-                <div className="sv-img"><img src={img} alt="" loading="lazy" /></div>
+            {SERVICES.map((s) => (
+              <a className="sv-row" data-r key={s.n} href={s.to} onClick={goClick({ to: s.to, label: "Proyectos" })}>
+                <span className="sv-n">{s.n}</span>
+                <h3 className="sv-t">{s.title}</h3>
+                <p className="sv-d">{s.desc}</p>
+                <div className="sv-img"><img src={s.img} alt={s.title} loading="lazy" /></div>
                 <span className="sv-ar"><ArrowRight /></span>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -365,10 +415,12 @@ function HomeMain() {
           <div className="block__wrapper">
             <div className="content">
               <h2 className="content__title">36 obras. Una sola forma de <span className="serif">construir.</span></h2>
-              <p className="content__description">Edificios públicos, viviendas, plazas, energía e infraestructura hídrica. Un portfolio de obras reales.</p>
-              <a className="content__button" href="/proyectos" onClick={goClick({ to: "/proyectos", label: "Proyectos" })}>
-                Ver portfolio completo <span>→</span>
-              </a>
+              <div className="content__foot">
+                <p className="content__description">Edificios públicos, viviendas, plazas, energía e infraestructura hídrica. Un portfolio de obras reales.</p>
+                <a className="content__button" href="/proyectos" onClick={goClick({ to: "/proyectos", label: "Proyectos" })}>
+                  Ver portfolio completo <span>→</span>
+                </a>
+              </div>
             </div>
             <div className="gallery">
               <ul className="gallery__grid">

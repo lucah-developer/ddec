@@ -1,8 +1,8 @@
 import { useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import markLight from "../brand/logo/mark-light.png";
 import Nav from "./Nav";
 import Footer from "./Footer";
+import Cursor from "./Cursor";
 import { setNavLight, siteApi } from "../lib/motion";
 
 export default function SiteFrame() {
@@ -34,14 +34,13 @@ export default function SiteFrame() {
   return (
     <>
       <div className="curtain" id="curtain" aria-hidden="true">
-        <div className="lbl">
-          <img src={markLight} alt="" />
-          <b id="curtainLbl">D.D.E.C.</b>
-        </div>
+        <div className="slice-row is-vertical" id="sliceRow" />
+        <p className="curtain__label" id="curtainLabel" />
       </div>
       <Nav />
       <Outlet />
       <Footer />
+      <Cursor />
     </>
   );
 }

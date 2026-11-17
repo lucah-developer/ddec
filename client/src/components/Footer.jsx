@@ -1,4 +1,5 @@
 import markLight from "../brand/logo/mark-light.png";
+import coliseo from "../Logos&Imágenes/LogoSolo2.png";
 import { goClick } from "../lib/motion";
 
 const OBRA = [
@@ -13,6 +14,7 @@ const OBRA = [
 export default function Footer() {
   return (
     <footer data-nav="dark">
+      <img className="ft-sketch" src={coliseo} alt="" aria-hidden="true" />
       <div className="wrap">
         <div className="ft-top">
           <div className="ft-brand">

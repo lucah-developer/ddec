@@ -6,6 +6,7 @@ import { ArrowDiag, IconGrid, IconList } from "../components/Icons";
 import markLight from "../brand/logo/mark-light.png";
 import { CLIENTS, PROJECTS, clientByKey, counts, pad2 } from "../data/projects";
 import { copyReveal, goClick, navTheme, setNavLight, siteApi } from "../lib/motion";
+import { setSeo } from "../lib/seo";
 import { usePageLifecycle } from "../lib/usePageLifecycle";
 
 const COUNT = counts();
@@ -87,7 +88,6 @@ function Projects() {
   usePageLifecycle(
     "projects",
     () => {
-      document.title = "Proyectos — D.D.E.C. S.R.L. · Propuesta de rediseño";
       siteApi.entrance = playProjectsHero;
       const root = document.getElementById("top") || document.body;
       copyReveal(root);
@@ -102,6 +102,16 @@ function Projects() {
       }
     }
   );
+
+  useEffect(() => {
+    setSeo({
+      title: client ? `${client.full} — Proyectos de D.D.E.C. S.R.L.` : "Proyectos — D.D.E.C. S.R.L.",
+      description: client
+        ? client.intro
+        : "Obras públicas y privadas diseñadas, calculadas y ejecutadas por D.D.E.C. en San Rafael, Mendoza.",
+      path: client ? `/proyectos?c=${key}` : "/proyectos",
+    });
+  }, [client, key]);
 
   useEffect(() => {
     if (siteApi.static) return undefined;

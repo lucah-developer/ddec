@@ -157,15 +157,15 @@ function stickyGrid() {
   };
   const zoom = () => {
     const tl = gsap.timeline({ defaults: { duration: 1, ease: "power3.inOut" } });
-    tl.to(gridEl, { scale: 2.05 });
-    tl.to(cols[0], { xPercent: -40 }, "<");
-    tl.to(cols[2], { xPercent: 40 }, "<");
+    tl.to(gridEl, { scale: 1.42 });
+    tl.to(cols[0], { xPercent: -22 }, "<");
+    tl.to(cols[2], { xPercent: 22 }, "<");
     tl.to(
       cols[1],
-      { yPercent: (i) => (i < Math.floor(cols[1].length / 2) ? -1 : 1) * 40, duration: 0.5, ease: "power1.inOut" },
+      { yPercent: (i) => (i < Math.floor(cols[1].length / 2) ? -1 : 1) * 22, duration: 0.5, ease: "power1.inOut" },
       "-=0.5"
     );
-    tl.to(imgs, { filter: "grayscale(.4) brightness(.38) contrast(1.05)", duration: 1, ease: "none" }, 0.2);
+    tl.to(imgs, { filter: "grayscale(.35) brightness(.5) contrast(1.05)", duration: 1, ease: "none" }, 0.2);
     return tl;
   };
   const toggle = (vis) => {

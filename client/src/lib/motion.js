@@ -67,7 +67,11 @@ export const siteApi = {
       this.scrollTo(0, true);
       return;
     }
-    this.scrollTo(el.getBoundingClientRect().top + window.scrollY, true);
+    const nav = document.getElementById("nav");
+    const offset = (nav ? nav.offsetHeight : 72) + 16;
+    const current = this.lenis ? this.lenis.scroll : window.scrollY;
+    const y = el.getBoundingClientRect().top + current - offset;
+    this.scrollTo(Math.max(0, y), true);
   },
 
   lock(on) {
@@ -75,28 +79,66 @@ export const siteApi = {
     document.documentElement.classList.toggle("modal-lock", on);
   },
 
-  curtainOut(label) {
+  mountSlices(count, orientation) {
+    const row = document.getElementById("sliceRow");
+    if (!row) return [];
+    row.classList.toggle("is-vertical", orientation === "vertical");
+    row.classList.toggle("is-horizontal", orientation === "horizontal");
+    row.replaceChildren();
+    const slices = [];
+    for (let i = 0; i < count; i += 1) {
+      const slice = document.createElement("i");
+      row.appendChild(slice);
+      slices.push(slice);
+    }
+    return slices;
+  },
+
+  curtainOut(label = "") {
     const curtain = document.getElementById("curtain");
-    const lbl = document.getElementById("curtainLbl");
     if (!curtain) return Promise.resolve();
-    if (lbl) lbl.textContent = label || "D.D.E.C.";
+    this._cu?.kill();
+    const slices = this.mountSlices(4, "vertical");
+    const word = document.getElementById("curtainLabel");
+    if (word) {
+      word.textContent = label || "";
+      gsap.set(word, { autoAlpha: label ? 1 : 0, yPercent: 100, xPercent: 0 });
+    }
+    curtain.classList.add("is-on");
     return new Promise((res) => {
-      gsap.timeline({ onComplete: res })
-        .set(curtain, { visibility: "visible", clipPath: "inset(100% 0 0 0)" })
-        .to(curtain, { clipPath: "inset(0% 0 0 0)", duration: 0.65, ease: "power4.inOut" })
-        .fromTo(".curtain .lbl", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, "-=0.25")
-        .to({}, { duration: 0.12 });
+      this._cu = gsap.timeline({ onComplete: res });
+      this._cu.fromTo(
+        slices,
+        { yPercent: 100 },
+        { yPercent: 0, duration: 0.8, ease: "power3.inOut", stagger: 0.08 }
+      );
+      if (word && label) {
+        this._cu.to(word, { yPercent: 0, duration: 0.8, ease: "power3.inOut" }, 0.08);
+      }
     });
   },
 
-  curtainAway(delay = 0.2) {
+  curtainAway(delay = 0.06) {
     const curtain = document.getElementById("curtain");
     if (!curtain) return Promise.resolve();
+    this._cu?.kill();
+    const slices = this.mountSlices(7, "horizontal");
+    const word = document.getElementById("curtainLabel");
+    curtain.classList.add("is-on");
+    gsap.set(slices, { xPercent: 0, yPercent: 0 });
+    if (word) gsap.set(word, { xPercent: 0, yPercent: 0, autoAlpha: word.textContent ? 1 : 0 });
     return new Promise((res) => {
-      gsap.timeline({ onComplete: res })
-        .set(curtain, { visibility: "visible", clipPath: "inset(0% 0 0 0)" })
-        .to(curtain, { clipPath: "inset(0 0 100% 0)", duration: 0.7, ease: "power4.inOut", delay })
-        .set(curtain, { visibility: "hidden" });
+      this._cu = gsap.timeline({
+        onComplete: () => {
+          curtain.classList.remove("is-on");
+          if (word) word.textContent = "";
+          res();
+        },
+      });
+      this._cu.to(slices, { xPercent: 100, duration: 0.8, ease: "power3.inOut", stagger: 0.08, delay });
+      if (word && word.textContent) {
+        this._cu.to(word, { xPercent: 100, duration: 0.8, ease: "power3.inOut", delay }, 0);
+      }
     });
   },
 
@@ -118,8 +160,7 @@ export const siteApi = {
       if (same) {
         this.scrollToHash(hash);
         ScrollTrigger.refresh();
-        this.curtainAway(0.35);
-        gsap.delayedCall(1.2, () => {
+        this.curtainAway(0.06).then(() => {
           this.busy = false;
         });
         return;
@@ -148,10 +189,11 @@ export const siteApi = {
     this.deferEntrance = false;
     if (this.expectPage) {
       this.expectPage = false;
-      this.curtainAway(0.25);
-      gsap.delayedCall(0.55, () => {
-        if (play) play();
+      this.curtainAway(0.06).then(() => {
         this.busy = false;
+      });
+      gsap.delayedCall(0.28, () => {
+        if (play) play();
       });
       return;
     }

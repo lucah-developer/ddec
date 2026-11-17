@@ -18,7 +18,7 @@
     "prestart": "node scripts/gen-manifest.js",
     "prebuild": "node scripts/gen-manifest.js",
     "start": "react-scripts start",
-    "build": "react-scripts build && node scripts/dereference-media.js",
+    "build": "react-scripts build && node scripts/publish-media.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

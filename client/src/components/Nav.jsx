@@ -43,7 +43,7 @@ export default function Nav() {
             <img className="mk-d" src={markDark} alt="" />
             <span>
               <b>D.D.E.C.</b>
-              <small>S.R.L. · San Rafael</small>
+              <small>Diseño desarrollo estructuras civiles</small>
             </span>
           </a>
           <ul>

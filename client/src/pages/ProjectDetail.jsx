@@ -6,6 +6,7 @@ import { ArrowDiag, ArrowRight } from "../components/Icons";
 import { PROJECTS, clientByKey, pad2, projectById } from "../data/projects";
 import { mountDetail, playDetail, prepareDetail } from "../lib/detailMotion";
 import { goClick, setNavLight, siteApi } from "../lib/motion";
+import { setSeo } from "../lib/seo";
 import { usePageLifecycle } from "../lib/usePageLifecycle";
 
 function moreOf(project) {
@@ -162,7 +163,11 @@ const DetailView = memo(function DetailView({ project, onOpen }) {
   usePageLifecycle(
     project.id,
     async () => {
-      document.title = `${project.title} — D.D.E.C. S.R.L. · Propuesta de rediseño`;
+      setSeo({
+        title: `${project.title} — D.D.E.C. S.R.L.`,
+        description: lead.length > 160 ? `${lead.slice(0, 157)}…` : lead,
+        path: `/proyectos/${project.id}`,
+      });
       const img = document.querySelector("#phBg img");
       if (img && !img.complete) {
         await new Promise((res) => {
